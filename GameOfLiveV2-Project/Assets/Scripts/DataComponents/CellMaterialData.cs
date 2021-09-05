@@ -4,8 +4,9 @@ using UnityEngine;
 namespace TMG.GameOfLiveV2
 {
     [GenerateAuthoringComponent]
-    public struct CellGridReference : IComponentData
+    public class CellMaterialData : IComponentData
     {
-        public BlobAssetReference<CellBlobAssetX> Value;
+        public Material Alive;
+        public Material Dead;
     }
 }
