@@ -157,8 +157,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GridDimensions:
-    x: 10
-    y: 10
+    x: 500
+    y: 500
   TilePrefab: {fileID: 4247255665922555157, guid: cf209a1999543e54f95650158f6b7a65, type: 3}
   TileDataPrefab: {fileID: 4989231186178694708, guid: 115e9eb1add4d6546ae0ce5ce5763c8e, type: 3}
   PositionOffset:
@@ -215,8 +215,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07933c297a9d43d883a6050809b27b8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Alive: {fileID: 2100000, guid: 5809ec0a061802c4d9c86c4b870c2cd9, type: 2}
-  Dead: {fileID: 2100000, guid: 2e5690c02f3a7ae4a862cc864a2e2cc1, type: 2}
+  Alive: {fileID: 2100000, guid: 76e6ba6506237b94ba4cc35ed301cf05, type: 2}
+  Dead: {fileID: 2100000, guid: fa5769799ec8afb44819a45cc90d03ea, type: 2}
 --- !u!114 &245350294
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -241,6 +241,7 @@ GameObject:
   - component: {fileID: 963194228}
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
+  - component: {fileID: 963194229}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -313,6 +314,38 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &963194229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
 --- !u!1 &1661895789
 GameObject:
   m_ObjectHideFlags: 0
