@@ -132,10 +132,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 245350291}
-  - component: {fileID: 245350290}
   - component: {fileID: 245350289}
   - component: {fileID: 245350292}
   - component: {fileID: 245350293}
+  - component: {fileID: 245350290}
+  - component: {fileID: 245350294}
   m_Layer: 0
   m_Name: GridSpawner
   m_TagString: Untagged
@@ -173,10 +174,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 245350288}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea7d7495833204790ba1d3a8755397f8, type: 3}
+  m_Script: {fileID: 11500000, guid: e1ef02b687964cdea1793d38510b50b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ConversionMode: 0
 --- !u!4 &245350291
 Transform:
   m_ObjectHideFlags: 0
@@ -217,6 +217,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Alive: {fileID: 2100000, guid: 5809ec0a061802c4d9c86c4b870c2cd9, type: 2}
   Dead: {fileID: 2100000, guid: 2e5690c02f3a7ae4a862cc864a2e2cc1, type: 2}
+--- !u!114 &245350294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 245350288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea7d7495833204790ba1d3a8755397f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ConversionMode: 0
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -270,7 +283,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 10
+  orthographic size: 500
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -294,7 +307,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5, y: 5, z: -10}
+  m_LocalPosition: {x: 500, y: 500, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
