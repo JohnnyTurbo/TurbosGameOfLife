@@ -7,12 +7,12 @@ namespace TMG.GameOfLiveV2
     {
         protected override void OnUpdate()
         {
-            Entities.ForEach((ref TilePositionData tilePositionData) =>
+            Entities.ForEach((ref TilePositionData tilePositionData, ref ChangeNextFrame changeNextFrame) =>
             {
-                if (tilePositionData.ChangeNextFrame)
+                if (changeNextFrame.Value)
                 {
                     tilePositionData.IsAlive = !tilePositionData.IsAlive;
-                    tilePositionData.ChangeNextFrame = false;
+                    changeNextFrame.Value = false;
                 }                
             }).Run();
         }

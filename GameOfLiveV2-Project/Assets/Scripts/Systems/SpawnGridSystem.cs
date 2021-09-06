@@ -13,20 +13,18 @@ namespace TMG.GameOfLiveV2
             var gridSpawnData = EntityManager.GetComponentData<GridSpawnData>(gameController);
             var numEntities = gridSpawnData.GridDimensions.x * gridSpawnData.GridDimensions.y;
             var newTiles = EntityManager.Instantiate(gridSpawnData.TilePrefab, numEntities, Allocator.Temp);
-            var dataPrefabArchetype = EntityManager.CreateArchetype(typeof(TilePositionData), typeof(CellGridReference));
+            var dataPrefabArchetype = EntityManager.CreateArchetype(typeof(TilePositionData), typeof(CellGridReference), typeof(ChangeNextFrame));
             var newDatas = EntityManager.CreateEntity(dataPrefabArchetype, numEntities, Allocator.Temp);
 
             using var blobBuilder = new BlobBuilder(Allocator.Temp);
             ref var cellGridBlobAsset = ref blobBuilder.ConstructRoot<CellBlobAssetX>();
             
             var xArray = blobBuilder.Allocate(ref cellGridBlobAsset.X, gridSpawnData.GridDimensions.x);
-            //var vxArray = blobBuilder.Allocate(ref cellGridBlobAsset.X, gridSpawnData.GridDimensions.x);
             
             var tileIndex = 0;
             for (var x = 0; x < gridSpawnData.GridDimensions.x; x++)
             {
                 var yArray = blobBuilder.Allocate(ref xArray[x].Y, gridSpawnData.GridDimensions.y);
-                //var vyArray = blobBuilder.Allocate(ref vxArray[x].Y, gridSpawnData.GridDimensions.y);
                 
                 for (var y = 0; y < gridSpawnData.GridDimensions.y; y++)
                 {
@@ -38,13 +36,10 @@ namespace TMG.GameOfLiveV2
                     {
                         Value = new int2(x, y),
                         IsAlive = false,
-                        ChangeNextFrame = false,
-                        //Visuals = newTiles[tileIndex]
                     };
                     EntityManager.SetComponentData(newDatas[tileIndex], newTilePosition);
 
                     yArray[y] = new CellData {Value = newDatas[tileIndex], VisualValue = newTiles[tileIndex]};
-                    //vyArray[y] = newTiles[tileIndex];
                     tileIndex++;
                 }
             }
