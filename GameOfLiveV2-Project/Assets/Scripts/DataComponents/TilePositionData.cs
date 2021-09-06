@@ -6,8 +6,9 @@ namespace TMG.GameOfLiveV2
     [GenerateAuthoringComponent]
     public struct TilePositionData : IComponentData
     {
-        //public int2 Value;
+        public int2 Value;
         public bool IsAlive;
-        public Entity Visuals;
+        public bool ChangeNextFrame;
+        //public Entity Visuals;
     }
 }
