@@ -157,8 +157,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GridDimensions:
-    x: 500
-    y: 500
+    x: 1000
+    y: 1000
   TilePrefab: {fileID: 4247255665922555157, guid: cf209a1999543e54f95650158f6b7a65, type: 3}
   TileDataPrefab: {fileID: 4989231186178694708, guid: 115e9eb1add4d6546ae0ce5ce5763c8e, type: 3}
   PositionOffset:

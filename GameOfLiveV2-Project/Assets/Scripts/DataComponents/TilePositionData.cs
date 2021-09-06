@@ -8,7 +8,6 @@ namespace TMG.GameOfLiveV2
     {
         public int2 Value;
         public bool IsAlive;
-        public bool ChangeNextFrame;
         //public Entity Visuals;
     }
 }

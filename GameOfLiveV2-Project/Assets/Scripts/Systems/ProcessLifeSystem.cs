@@ -1,7 +1,6 @@
-﻿using Unity.Collections;
-using Unity.Entities;
+﻿using Unity.Entities;
+using Unity.Jobs;
 using Unity.Mathematics;
-using UnityEngine;
 
 namespace TMG.GameOfLiveV2
 {
@@ -34,8 +33,8 @@ namespace TMG.GameOfLiveV2
         {
             var allTilePositions = GetComponentDataFromEntity<TilePositionData>(true);
             var maxCoordinates = _gridSpawnData.GridDimensions;
-            var ecb = _endSimulationEntityCommandBufferSystem.CreateCommandBuffer();
-            Entities.ForEach((ref TilePositionData tilePositionData, in CellGridReference grid) =>
+            var ecb = _endSimulationEntityCommandBufferSystem.CreateCommandBuffer().AsParallelWriter();
+            Entities.WithReadOnly(allTilePositions).ForEach((Entity e, int entityInQueryIndex, ref ChangeNextFrame changeNextFrame, in TilePositionData tilePositionData, in CellGridReference grid) =>
             {
                 var aliveNeighbors = 0;
                 foreach (var relativeCoordinate in _relativeCoordinates)
@@ -57,26 +56,27 @@ namespace TMG.GameOfLiveV2
                     {
                         // Die from underpopulation
                         var visualEntity = grid.GetVisualEntityAtCoordinate(tilePositionData.Value);
-                        ecb.AddComponent<ChangeVisualsTag>(visualEntity);
-                        tilePositionData.ChangeNextFrame = true;
+                        ecb.AddComponent<ChangeVisualsTag>(entityInQueryIndex, visualEntity);
+                        changeNextFrame.Value = true;
                     }
                     else if (aliveNeighbors > 3)
                     {
                         // Die from overpopulation
                         var visualEntity = grid.GetVisualEntityAtCoordinate(tilePositionData.Value);
-                        ecb.AddComponent<ChangeVisualsTag>(visualEntity);
-                        tilePositionData.ChangeNextFrame = true;
+                        ecb.AddComponent<ChangeVisualsTag>(entityInQueryIndex, visualEntity);
+                        changeNextFrame.Value = true;
                     }
                 }
                 else if (aliveNeighbors == 3)
                 {
                     // Birth by reproduction
                     var visualEntity = grid.GetVisualEntityAtCoordinate(tilePositionData.Value);
-                    ecb.AddComponent<ChangeVisualsTag>(visualEntity);
-                    tilePositionData.ChangeNextFrame = true;
+                    ecb.AddComponent<ChangeVisualsTag>(entityInQueryIndex, visualEntity);
+                    changeNextFrame.Value = true;
                 }
                 
-            }).Run();
+            }).ScheduleParallel();
+            Dependency.Complete();
         }
 
         private static bool IsValidPosition(int2 coordinatesToTest, int2 maxCoordinates)
