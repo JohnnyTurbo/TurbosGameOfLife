@@ -137,7 +137,6 @@ GameObject:
   - component: {fileID: 245350293}
   - component: {fileID: 245350294}
   - component: {fileID: 245350295}
-  - component: {fileID: 245350296}
   - component: {fileID: 245350290}
   m_Layer: 0
   m_Name: GridSpawner
@@ -243,21 +242,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 277b897fd8724e2cb57878dbdfc4405c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &245350296
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 245350288}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 254d017bfbf148b09f0261e0489d4f60, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NewGridSize:
-    x: 5
-    y: 5
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -388,7 +372,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _normalScrollRate: 25
-  _fastScrollRate: 100
+  _fastScrollRate: 500
   _minOrthographicSize: 5
 --- !u!1 &1661895789
 GameObject:
@@ -437,6 +421,9 @@ MonoBehaviour:
   _tickRate: 0.25
   _pauseKey: 32
   _stepKey: 275
+  _initialGridSize:
+    x: 6
+    y: 6
 --- !u!114 &1661895792
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -450,7 +437,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gameOfLifeMonoController: {fileID: 1661895791}
-  boxWidth: 350
-  boxHeight: 500
-  fpsPollRate: 1
-  padding: 10
+  _debugPanelWidth: 350
+  _debugPanelHeight: 500
+  _fpsPollRate: 1
+  _padding: 10

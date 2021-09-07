@@ -14,11 +14,15 @@ namespace TMG.GameOfLiveV2
         [Range(float.Epsilon, 5)] public float _tickRate;
         [SerializeField] private KeyCode _pauseKey;
         [SerializeField] private KeyCode _stepKey;
-
+        [SerializeField] private int2 _initialGridSize;
+        
         private bool isPaused = false;
         private float timer;
         private EntityManager _entityManager;
         private ProcessLifeSystem _processLifeSystem;
+        private int2 _gridSize;
+
+        public int2 GridSize => _gridSize;
 
         public bool IsPaused => isPaused;
 
@@ -32,6 +36,8 @@ namespace TMG.GameOfLiveV2
             timer = _tickRate;
             _entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
             _processLifeSystem = World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<ProcessLifeSystem>();
+            
+            InitializeGrid(_initialGridSize);
         }
 
         private void Update()
@@ -75,6 +81,12 @@ namespace TMG.GameOfLiveV2
         public void ResizeGrid(int2 newGridSize)
         {
             DestroyGrid();
+            InitializeGrid(newGridSize);
+        }
+
+        private void InitializeGrid(int2 newGridSize)
+        {
+            _gridSize = newGridSize;
             var newGridData = new NewGridData {NewGridSize = newGridSize};
             _entityManager.AddComponentData(_gameControllerEntity, newGridData);
         }

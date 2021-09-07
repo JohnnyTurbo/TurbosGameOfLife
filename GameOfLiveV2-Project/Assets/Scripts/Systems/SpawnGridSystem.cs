@@ -2,7 +2,6 @@
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
-using UnityEngine;
 
 namespace TMG.GameOfLiveV2
 {
@@ -16,13 +15,9 @@ namespace TMG.GameOfLiveV2
 
         protected override void OnUpdate()
         {
-            Debug.Log("Spawnting");
             var gameController = GetSingletonEntity<GameControllerTag>();
             var gridSpawnData = EntityManager.GetComponentData<CurrentGridData>(gameController);
             var newGridData = EntityManager.GetComponentData<NewGridData>(gameController);
-            var cellGridReference = EntityManager.GetComponentData<CellGridReference>(gameController);
-            
-            //cellGridReference.Value.Dispose();
             
             gridSpawnData.GridDimensions = newGridData.NewGridSize;
             EntityManager.SetComponentData(gameController, gridSpawnData);
