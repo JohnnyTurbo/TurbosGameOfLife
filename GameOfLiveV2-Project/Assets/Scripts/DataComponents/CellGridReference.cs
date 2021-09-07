@@ -8,16 +8,12 @@ namespace TMG.GameOfLiveV2
     public struct CellGridReference : IComponentData
     {
         public BlobAssetReference<CellBlobAssetX> Value;
-        //public BlobAssetReference<CellBlobAssetX> VisualValue;
+
+        public int xCount => Value.Value.X.Length;
+        public int yCount => Value.Value[0].Length;
         
-        public readonly Entity GetDataEntityAtCoordinate(int2 coordinate)
-        {
-            return Value.Value.X[coordinate.x].Y[coordinate.y].Value;
-        }
-        
-        public readonly Entity GetVisualEntityAtCoordinate(int2 coordinate)
-        {
-            return Value.Value.X[coordinate.x].Y[coordinate.y].VisualValue;
-        }
+        public readonly CellData this[int x, int y] => Value.Value.X[x].Y[y];
+
+        public readonly CellData this[int2 index] => Value.Value.X[index.x].Y[index.y];
     }
 }

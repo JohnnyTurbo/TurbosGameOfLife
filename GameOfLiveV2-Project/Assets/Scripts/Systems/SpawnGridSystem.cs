@@ -2,10 +2,11 @@
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
+using UnityEngine;
 
 namespace TMG.GameOfLiveV2
 {
-    
+    [UpdateAfter(typeof(DestroyGridSystem))]
     public class SpawnGridSystem : SystemBase
     {
         protected override void OnCreate()
@@ -15,13 +16,17 @@ namespace TMG.GameOfLiveV2
 
         protected override void OnUpdate()
         {
+            Debug.Log("Spawnting");
             var gameController = GetSingletonEntity<GameControllerTag>();
             var gridSpawnData = EntityManager.GetComponentData<CurrentGridData>(gameController);
             var newGridData = EntityManager.GetComponentData<NewGridData>(gameController);
+            var cellGridReference = EntityManager.GetComponentData<CellGridReference>(gameController);
+            
+            //cellGridReference.Value.Dispose();
             
             gridSpawnData.GridDimensions = newGridData.NewGridSize;
             EntityManager.SetComponentData(gameController, gridSpawnData);
-            SetCamera.Instance.Set(gridSpawnData.GridDimensions);
+            CameraController.Instance.SetToGridFullscreen(gridSpawnData.GridDimensions);
             
             var numEntities = gridSpawnData.GridDimensions.x * gridSpawnData.GridDimensions.y;
             var newTiles = EntityManager.Instantiate(gridSpawnData.TilePrefab, numEntities, Allocator.Temp);

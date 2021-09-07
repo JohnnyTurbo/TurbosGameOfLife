@@ -1,5 +1,4 @@
 ﻿using Unity.Entities;
-using Unity.Jobs;
 using Unity.Mathematics;
 
 namespace TMG.GameOfLiveV2
@@ -8,10 +7,9 @@ namespace TMG.GameOfLiveV2
     [UpdateAfter(typeof(ClickToChangeSystem))]
     public class ProcessLifeSystem : SystemBase
     {
-        private CurrentGridData _currentGridData;
         private EndSimulationEntityCommandBufferSystem _endSimulationEntityCommandBufferSystem;
         
-        private static readonly int2[] _relativeCoordinates = new[]
+        private static readonly int2[] _relativeCoordinates = 
         {
             new int2(-1, -1),
             new int2(-1, 0),
@@ -25,14 +23,14 @@ namespace TMG.GameOfLiveV2
         
         protected override void OnStartRunning()
         {
-            _currentGridData = GetSingleton<CurrentGridData>();
             _endSimulationEntityCommandBufferSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
         }
 
         protected override void OnUpdate()
         {
+            var currentGridData = GetSingleton<CurrentGridData>();
             var allTilePositions = GetComponentDataFromEntity<TilePositionData>(true);
-            var maxCoordinates = _currentGridData.GridDimensions;
+            var maxCoordinates = currentGridData.GridDimensions;
             var ecb = _endSimulationEntityCommandBufferSystem.CreateCommandBuffer().AsParallelWriter();
             Entities.WithReadOnly(allTilePositions).ForEach((Entity e, int entityInQueryIndex, ref ChangeNextFrame changeNextFrame, in TilePositionData tilePositionData, in CellGridReference grid) =>
             {
@@ -42,7 +40,7 @@ namespace TMG.GameOfLiveV2
                     var neighborPosition = tilePositionData.Value + relativeCoordinate;
                     if (!IsValidPosition(neighborPosition, maxCoordinates)) {continue;}
 
-                    var neighborEntity = grid.GetDataEntityAtCoordinate(neighborPosition);
+                    var neighborEntity = grid[neighborPosition].Value;
                     var neighborPositionData = allTilePositions[neighborEntity];
                     if (neighborPositionData.IsAlive)
                     {
@@ -55,14 +53,14 @@ namespace TMG.GameOfLiveV2
                     if (aliveNeighbors < 2)
                     {
                         // Die from underpopulation
-                        var visualEntity = grid.GetVisualEntityAtCoordinate(tilePositionData.Value);
+                        var visualEntity = grid[tilePositionData.Value].VisualValue;
                         ecb.AddComponent<ChangeVisualsTag>(entityInQueryIndex, visualEntity);
                         changeNextFrame.Value = true;
                     }
                     else if (aliveNeighbors > 3)
                     {
                         // Die from overpopulation
-                        var visualEntity = grid.GetVisualEntityAtCoordinate(tilePositionData.Value);
+                        var visualEntity = grid[tilePositionData.Value].VisualValue;
                         ecb.AddComponent<ChangeVisualsTag>(entityInQueryIndex, visualEntity);
                         changeNextFrame.Value = true;
                     }
@@ -70,7 +68,7 @@ namespace TMG.GameOfLiveV2
                 else if (aliveNeighbors == 3)
                 {
                     // Birth by reproduction
-                    var visualEntity = grid.GetVisualEntityAtCoordinate(tilePositionData.Value);
+                    var visualEntity = grid[tilePositionData.Value].VisualValue;
                     ecb.AddComponent<ChangeVisualsTag>(entityInQueryIndex, visualEntity);
                     changeNextFrame.Value = true;
                 }

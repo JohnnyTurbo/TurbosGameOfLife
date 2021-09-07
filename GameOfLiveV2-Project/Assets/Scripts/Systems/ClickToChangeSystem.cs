@@ -1,6 +1,5 @@
 ﻿using Unity.Entities;
 using Unity.Mathematics;
-using Unity.Rendering;
 using UnityEngine;
 
 namespace TMG.GameOfLiveV2
@@ -8,35 +7,33 @@ namespace TMG.GameOfLiveV2
     public class ClickToChangeSystem : SystemBase
     {
         private Camera mainCamera;
-        private CurrentGridData _currentGridData;
-        private CellGridReference _cellGridReference;
-        //private CellMaterialData _cellMaterialData;
+        private Entity _gameController;
         
         protected override void OnStartRunning()
         {
             mainCamera = Camera.main;
-            var gameController = GetSingletonEntity<CurrentGridData>();
-            _currentGridData = EntityManager.GetComponentData<CurrentGridData>(gameController);
-            _cellGridReference = EntityManager.GetComponentData<CellGridReference>(gameController);
-            //_cellMaterialData = EntityManager.GetComponentData<CellMaterialData>(gameController);
+            _gameController = GetSingletonEntity<GameControllerTag>();
         }
 
         protected override void OnUpdate()
         {
             if (Input.GetMouseButtonDown(0))
             {
+                var currentGridData = EntityManager.GetComponentData<CurrentGridData>(_gameController);
+                var cellGridReference = EntityManager.GetComponentData<CellGridReference>(_gameController);
+                
                 var worldPos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
                 var tilePos = new int2
                 {
                     x = (int) math.floor(worldPos.x),
                     y = (int) math.floor(worldPos.y)
                 };
-                if(!_currentGridData.IsValidCoordinate(tilePos)){return;}
-                var entity = _cellGridReference.Value.Value.X[tilePos.x].Y[tilePos.y].Value;
+                if(!currentGridData.IsValidCoordinate(tilePos)){return;}
+                var entity = cellGridReference[tilePos].Value;
                 var posData = EntityManager.GetComponentData<TilePositionData>(entity);
                 posData.IsAlive = !posData.IsAlive;
                 EntityManager.SetComponentData(entity, posData);
-                var visualEntity = _cellGridReference.Value.Value.X[tilePos.x].Y[tilePos.y].VisualValue;
+                var visualEntity = cellGridReference[tilePos].VisualValue;
                 EntityManager.AddComponent<ChangeVisualsTag>(visualEntity);
             }
         }
