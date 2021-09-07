@@ -6,14 +6,16 @@ namespace TMG.GameOfLiveV2
 {
     public class GameOfLifeTick : MonoBehaviour
     {
-        [SerializeField][Range(float.Epsilon, 5)] private float _tickRate;
+        [Range(float.Epsilon, 5)] public float _tickRate;
         [SerializeField] private KeyCode _pauseKey;
         [SerializeField] private KeyCode _stepKey;
 
         private bool isPaused = false;
         private float timer;
         private ProcessLifeSystem _processLifeSystem;
-        
+
+        public bool IsPaused => isPaused;
+
         private void Start()
         {
             timer = _tickRate;
@@ -24,12 +26,12 @@ namespace TMG.GameOfLiveV2
         {
             if (Input.GetKeyDown(_pauseKey))
             {
-                isPaused = !isPaused;
+                PlayPauseLife();
             }
 
             if (isPaused && Input.GetKeyDown(_stepKey))
             {
-                _processLifeSystem.Update();
+                AdvanceLife();
             }
 
             if (!isPaused)
@@ -41,6 +43,16 @@ namespace TMG.GameOfLiveV2
                     timer = _tickRate;
                 }
             }
+        }
+
+        public void PlayPauseLife()
+        {
+            isPaused = !isPaused;
+        }
+
+        public void AdvanceLife()
+        {
+            _processLifeSystem.Update();
         }
     }
 }

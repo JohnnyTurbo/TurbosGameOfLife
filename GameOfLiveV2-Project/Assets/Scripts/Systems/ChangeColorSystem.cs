@@ -13,7 +13,7 @@ namespace TMG.GameOfLiveV2
         protected override void OnStartRunning()
         {
             _endSimulationEntityCommandBufferSystem = World.GetOrCreateSystem<BeginInitializationEntityCommandBufferSystem>();
-            var gameController = GetSingletonEntity<GridSpawnData>();
+            var gameController = GetSingletonEntity<GameControllerTag>();
             _cellGridReference = EntityManager.GetComponentData<CellGridReference>(gameController);
             _cellMaterialData = EntityManager.GetComponentData<CellMaterialData>(gameController);
         }

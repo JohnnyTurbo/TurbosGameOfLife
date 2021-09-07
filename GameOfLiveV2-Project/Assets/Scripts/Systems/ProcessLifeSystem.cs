@@ -8,7 +8,7 @@ namespace TMG.GameOfLiveV2
     [UpdateAfter(typeof(ClickToChangeSystem))]
     public class ProcessLifeSystem : SystemBase
     {
-        private GridSpawnData _gridSpawnData;
+        private CurrentGridData _currentGridData;
         private EndSimulationEntityCommandBufferSystem _endSimulationEntityCommandBufferSystem;
         
         private static readonly int2[] _relativeCoordinates = new[]
@@ -25,14 +25,14 @@ namespace TMG.GameOfLiveV2
         
         protected override void OnStartRunning()
         {
-            _gridSpawnData = GetSingleton<GridSpawnData>();
+            _currentGridData = GetSingleton<CurrentGridData>();
             _endSimulationEntityCommandBufferSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
         }
 
         protected override void OnUpdate()
         {
             var allTilePositions = GetComponentDataFromEntity<TilePositionData>(true);
-            var maxCoordinates = _gridSpawnData.GridDimensions;
+            var maxCoordinates = _currentGridData.GridDimensions;
             var ecb = _endSimulationEntityCommandBufferSystem.CreateCommandBuffer().AsParallelWriter();
             Entities.WithReadOnly(allTilePositions).ForEach((Entity e, int entityInQueryIndex, ref ChangeNextFrame changeNextFrame, in TilePositionData tilePositionData, in CellGridReference grid) =>
             {

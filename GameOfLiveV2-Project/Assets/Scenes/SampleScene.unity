@@ -135,8 +135,9 @@ GameObject:
   - component: {fileID: 245350289}
   - component: {fileID: 245350292}
   - component: {fileID: 245350293}
-  - component: {fileID: 245350290}
   - component: {fileID: 245350294}
+  - component: {fileID: 245350295}
+  - component: {fileID: 245350296}
   m_Layer: 0
   m_Name: GridSpawner
   m_TagString: Untagged
@@ -157,26 +158,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GridDimensions:
-    x: 1000
-    y: 1000
+    x: 0
+    y: 0
   TilePrefab: {fileID: 4247255665922555157, guid: cf209a1999543e54f95650158f6b7a65, type: 3}
-  TileDataPrefab: {fileID: 4989231186178694708, guid: 115e9eb1add4d6546ae0ce5ce5763c8e, type: 3}
   PositionOffset:
     x: 0.5
     y: 0.5
     z: 0
---- !u!114 &245350290
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 245350288}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1ef02b687964cdea1793d38510b50b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &245350291
 Transform:
   m_ObjectHideFlags: 0
@@ -230,6 +218,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ConversionMode: 0
+--- !u!114 &245350295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 245350288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 277b897fd8724e2cb57878dbdfc4405c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &245350296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 245350288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 254d017bfbf148b09f0261e0489d4f60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NewGridSize:
+    x: 100
+    y: 100
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -242,6 +257,7 @@ GameObject:
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
   - component: {fileID: 963194229}
+  - component: {fileID: 963194230}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -346,6 +362,18 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
+--- !u!114 &963194230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e27974b7615e468aa11b291da0abe3d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1661895789
 GameObject:
   m_ObjectHideFlags: 0
@@ -356,6 +384,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1661895790}
   - component: {fileID: 1661895791}
+  - component: {fileID: 1661895792}
   m_Layer: 0
   m_Name: MonoGameController
   m_TagString: Untagged
@@ -392,3 +421,20 @@ MonoBehaviour:
   _tickRate: 0.25
   _pauseKey: 32
   _stepKey: 275
+--- !u!114 &1661895792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1661895789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e169bffe26cf44568ced3e8a2b813059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GameOfLifeTick: {fileID: 1661895791}
+  boxWidth: 350
+  boxHeight: 500
+  fpsPollRate: 1
+  padding: 10

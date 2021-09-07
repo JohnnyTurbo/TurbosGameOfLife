@@ -5,12 +5,24 @@ using Unity.Transforms;
 
 namespace TMG.GameOfLiveV2
 {
+    
     public class SpawnGridSystem : SystemBase
     {
-        protected override void OnStartRunning()
+        protected override void OnCreate()
         {
-            var gameController = GetSingletonEntity<GridSpawnData>();
-            var gridSpawnData = EntityManager.GetComponentData<GridSpawnData>(gameController);
+            RequireSingletonForUpdate<NewGridData>();
+        }
+
+        protected override void OnUpdate()
+        {
+            var gameController = GetSingletonEntity<GameControllerTag>();
+            var gridSpawnData = EntityManager.GetComponentData<CurrentGridData>(gameController);
+            var newGridData = EntityManager.GetComponentData<NewGridData>(gameController);
+            
+            gridSpawnData.GridDimensions = newGridData.NewGridSize;
+            EntityManager.SetComponentData(gameController, gridSpawnData);
+            SetCamera.Instance.Set(gridSpawnData.GridDimensions);
+            
             var numEntities = gridSpawnData.GridDimensions.x * gridSpawnData.GridDimensions.y;
             var newTiles = EntityManager.Instantiate(gridSpawnData.TilePrefab, numEntities, Allocator.Temp);
             var dataPrefabArchetype = EntityManager.CreateArchetype(typeof(TilePositionData), typeof(CellGridReference), typeof(ChangeNextFrame));
@@ -53,12 +65,8 @@ namespace TMG.GameOfLiveV2
             {
                 EntityManager.SetComponentData(newData, cellGridRefData);
             }
-            
-        }
 
-        protected override void OnUpdate()
-        {
-            
+            EntityManager.RemoveComponent<NewGridData>(gameController);
         }
     }
 }
