@@ -138,6 +138,7 @@ GameObject:
   - component: {fileID: 245350294}
   - component: {fileID: 245350295}
   - component: {fileID: 245350290}
+  - component: {fileID: 245350296}
   m_Layer: 0
   m_Name: GridSpawner
   m_TagString: Untagged
@@ -157,14 +158,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 467c09dc66197c94eb0a77661054b08a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GridDimensions:
+  GridSize:
     x: 0
     y: 0
-  TilePrefab: {fileID: 4247255665922555157, guid: cf209a1999543e54f95650158f6b7a65, type: 3}
-  PositionOffset:
-    x: 0.5
-    y: 0.5
-    z: 0
 --- !u!114 &245350290
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -242,6 +238,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 277b897fd8724e2cb57878dbdfc4405c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &245350296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 245350288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6dff710cdf67433184a776c5bd64fa9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CellPrefab: {fileID: 4247255665922555157, guid: cf209a1999543e54f95650158f6b7a65, type: 3}
+  CellOffset:
+    x: 0.5
+    y: 0.5
+    z: 0
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -424,6 +437,7 @@ MonoBehaviour:
   _initialGridSize:
     x: 6
     y: 6
+  TotalEntityCount: 0
 --- !u!114 &1661895792
 MonoBehaviour:
   m_ObjectHideFlags: 0

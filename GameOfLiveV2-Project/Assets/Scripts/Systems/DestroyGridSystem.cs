@@ -12,20 +12,20 @@ namespace TMG.GameOfLiveV2
         protected override void OnUpdate()
         {
             var gameController = GetSingletonEntity<GameControllerTag>();
+            var gridSize = EntityManager.GetComponentData<CurrentGridData>(gameController).GridSize;
+            var cellEntitiesReference = EntityManager.GetComponentData<CellEntitiesReference>(gameController);
 
-            var cellGridReference = EntityManager.GetComponentData<CellGridReference>(gameController);
-
-            for (var x = 0; x < cellGridReference.xCount; x++)
+            for (var x = 0; x < gridSize.x; x++)
             {
-                for (var y = 0; y < cellGridReference.yCount; y++)
+                for (var y = 0; y < gridSize.y; y++)
                 {
-                    var curCellData = cellGridReference[x, y];
-                    EntityManager.DestroyEntity(curCellData.Value);
-                    EntityManager.DestroyEntity(curCellData.VisualValue);
+                    var curCellEntities = cellEntitiesReference[x, y];
+                    EntityManager.DestroyEntity(curCellEntities.DataEntity);
+                    EntityManager.DestroyEntity(curCellEntities.RenderEntity);
                 }
             }
             
-            cellGridReference.Value.Dispose();
+            cellEntitiesReference.Value.Dispose();
 
             EntityManager.RemoveComponent<DestroyGridTag>(gameController);
         }

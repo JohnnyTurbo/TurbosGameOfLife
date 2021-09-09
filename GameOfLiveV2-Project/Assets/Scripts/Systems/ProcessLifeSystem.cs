@@ -4,7 +4,7 @@ using Unity.Mathematics;
 namespace TMG.GameOfLiveV2
 {
     [DisableAutoCreation]
-    [UpdateAfter(typeof(ClickToChangeSystem))]
+    [UpdateAfter(typeof(ChangeSelectedCellSystem))]
     public class ProcessLifeSystem : SystemBase
     {
         private EndSimulationEntityCommandBufferSystem _endSimulationEntityCommandBufferSystem;
@@ -29,48 +29,51 @@ namespace TMG.GameOfLiveV2
         protected override void OnUpdate()
         {
             var currentGridData = GetSingleton<CurrentGridData>();
-            var allTilePositions = GetComponentDataFromEntity<TilePositionData>(true);
-            var maxCoordinates = currentGridData.GridDimensions;
+            var allCellDataComponents = GetComponentDataFromEntity<CellData>(true);
+            var gridSize = currentGridData.GridSize;
             var ecb = _endSimulationEntityCommandBufferSystem.CreateCommandBuffer().AsParallelWriter();
-            Entities.WithReadOnly(allTilePositions).ForEach((Entity e, int entityInQueryIndex, ref ChangeNextFrame changeNextFrame, in TilePositionData tilePositionData, in CellGridReference grid) =>
+            Entities
+                .WithReadOnly(allCellDataComponents)
+                .ForEach((Entity e, int entityInQueryIndex, ref ChangeVitalState changeVitalState, in CellData cellData,
+                    in CellEntitiesReference cellEntitiesReference) =>
             {
                 var aliveNeighbors = 0;
                 foreach (var relativeCoordinate in _relativeCoordinates)
                 {
-                    var neighborPosition = tilePositionData.Value + relativeCoordinate;
-                    if (!IsValidPosition(neighborPosition, maxCoordinates)) {continue;}
+                    var neighborPosition = cellData.GridPosition + relativeCoordinate;
+                    if (!IsValidPosition(neighborPosition, gridSize)) {continue;}
 
-                    var neighborEntity = grid[neighborPosition].Value;
-                    var neighborPositionData = allTilePositions[neighborEntity];
+                    var neighborEntity = cellEntitiesReference[neighborPosition].DataEntity;
+                    var neighborPositionData = allCellDataComponents[neighborEntity];
                     if (neighborPositionData.IsAlive)
                     {
                         aliveNeighbors++;
                     }
                 }
 
-                if (tilePositionData.IsAlive)
+                if (cellData.IsAlive)
                 {
                     if (aliveNeighbors < 2)
                     {
                         // Die from underpopulation
-                        var visualEntity = grid[tilePositionData.Value].VisualValue;
-                        ecb.AddComponent<ChangeVisualsTag>(entityInQueryIndex, visualEntity);
-                        changeNextFrame.Value = true;
+                        var renderEntity = cellEntitiesReference[cellData.GridPosition].RenderEntity;
+                        ecb.AddComponent<ChangeCellColorTag>(entityInQueryIndex, renderEntity);
+                        changeVitalState.Value = true;
                     }
                     else if (aliveNeighbors > 3)
                     {
                         // Die from overpopulation
-                        var visualEntity = grid[tilePositionData.Value].VisualValue;
-                        ecb.AddComponent<ChangeVisualsTag>(entityInQueryIndex, visualEntity);
-                        changeNextFrame.Value = true;
+                        var renderEntity = cellEntitiesReference[cellData.GridPosition].RenderEntity;
+                        ecb.AddComponent<ChangeCellColorTag>(entityInQueryIndex, renderEntity);
+                        changeVitalState.Value = true;
                     }
                 }
                 else if (aliveNeighbors == 3)
                 {
                     // Birth by reproduction
-                    var visualEntity = grid[tilePositionData.Value].VisualValue;
-                    ecb.AddComponent<ChangeVisualsTag>(entityInQueryIndex, visualEntity);
-                    changeNextFrame.Value = true;
+                    var renderEntity = cellEntitiesReference[cellData.GridPosition].RenderEntity;
+                    ecb.AddComponent<ChangeCellColorTag>(entityInQueryIndex, renderEntity);
+                    changeVitalState.Value = true;
                 }
                 
             }).ScheduleParallel();

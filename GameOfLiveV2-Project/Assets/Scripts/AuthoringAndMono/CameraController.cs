@@ -1,5 +1,4 @@
-﻿using System;
-using Unity.Mathematics;
+﻿using Unity.Mathematics;
 using UnityEngine;
 
 namespace TMG.GameOfLiveV2
@@ -27,7 +26,7 @@ namespace TMG.GameOfLiveV2
         {
             mainCamera.transform.position = new Vector3(gridSize.x / 2f, gridSize.y / 2f, -10);
             
-            mainCamera.orthographicSize = CalculateOrthographicSize(gridSize);
+            mainCamera.orthographicSize = Mathf.Max(CalculateOrthographicSize(gridSize), _minOrthographicSize);
 
             _cameraBoundary = new Rect(0, 0, gridSize.x, gridSize.y);
         }
@@ -35,7 +34,7 @@ namespace TMG.GameOfLiveV2
         private float CalculateOrthographicSize(int2 gridSize)
         {
             var longerSide = Mathf.Max(gridSize.x / mainCamera.aspect, gridSize.y);
-            _maxOrthographicSize = longerSide / 2f * 1.1f;
+            _maxOrthographicSize = Mathf.Max(_minOrthographicSize, longerSide / 2f * 1.1f);
             return longerSide / 2f;
         }
 

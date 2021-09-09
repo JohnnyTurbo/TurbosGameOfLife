@@ -6,16 +6,14 @@ namespace TMG.GameOfLiveV2
     [GenerateAuthoringComponent]
     public struct CurrentGridData : IComponentData
     {
-        public int2 GridDimensions;
-        public Entity TilePrefab;
-        public float3 PositionOffset;
-        
+        public int2 GridSize;
+        public int CellCount => GridSize.x * GridSize.y;
         public readonly bool IsValidCoordinate(int2 coordinate)
         {
             return coordinate.x >= 0 && 
-                   coordinate.x < GridDimensions.x && 
+                   coordinate.x < GridSize.x && 
                    coordinate.y >= 0 && 
-                   coordinate.y < GridDimensions.y;
+                   coordinate.y < GridSize.y;
         }
     }
 

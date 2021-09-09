@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
 using UnityEngine;
@@ -9,7 +9,7 @@ namespace TMG.GameOfLiveV2
     {
         public static GameOfLifeMonoController Instance; 
         
-        public Entity _gameControllerEntity;
+        public Entity GameControllerEntity;
         
         [Range(float.Epsilon, 5)] public float _tickRate;
         [SerializeField] private KeyCode _pauseKey;
@@ -21,10 +21,12 @@ namespace TMG.GameOfLiveV2
         private EntityManager _entityManager;
         private ProcessLifeSystem _processLifeSystem;
         private int2 _gridSize;
-
+        
         public int2 GridSize => _gridSize;
 
         public bool IsPaused => isPaused;
+
+        public int TotalEntityCount;
 
         private void Awake()
         {
@@ -88,12 +90,12 @@ namespace TMG.GameOfLiveV2
         {
             _gridSize = newGridSize;
             var newGridData = new NewGridData {NewGridSize = newGridSize};
-            _entityManager.AddComponentData(_gameControllerEntity, newGridData);
+            _entityManager.AddComponentData(GameControllerEntity, newGridData);
         }
 
         private void DestroyGrid()
         {
-            _entityManager.AddComponent<DestroyGridTag>(_gameControllerEntity);
+            _entityManager.AddComponent<DestroyGridTag>(GameControllerEntity);
         }
     }
 }

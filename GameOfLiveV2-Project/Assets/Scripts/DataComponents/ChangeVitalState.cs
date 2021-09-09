@@ -2,7 +2,7 @@
 
 namespace TMG.GameOfLiveV2
 {
-    public struct ChangeNextFrame : IComponentData
+    public struct ChangeVitalState : IComponentData
     {
         public bool Value;
     }

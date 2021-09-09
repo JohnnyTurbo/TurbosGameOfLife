@@ -3,5 +3,5 @@
 namespace TMG.GameOfLiveV2 
 {
     [GenerateAuthoringComponent]
-    public struct ChangeVisualsTag : IComponentData {}
+    public struct ChangeCellColorTag : IComponentData {}
 }

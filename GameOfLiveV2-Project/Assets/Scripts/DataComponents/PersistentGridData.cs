@@ -4,9 +4,9 @@ using Unity.Mathematics;
 namespace TMG.GameOfLiveV2
 {
     [GenerateAuthoringComponent]
-    public struct CellData : IComponentData
+    public struct PersistentGridData : IComponentData
     {
-        public int2 GridPosition;
-        public bool IsAlive;
+        public Entity CellPrefab;
+        public float3 CellOffset;
     }
 }

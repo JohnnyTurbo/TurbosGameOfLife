@@ -7,7 +7,7 @@ namespace TMG.GameOfLiveV2
     {
         public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
         {
-            GameOfLifeMonoController.Instance._gameControllerEntity = entity;
+            GameOfLifeMonoController.Instance.GameControllerEntity = entity;
         }
     }
 }
