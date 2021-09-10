@@ -5,7 +5,6 @@ namespace TMG.GameOfLiveV2
     public struct CellEntities
     {
         public Entity DataEntity;
-        //public Entity RenderEntity;
-        public Entity AliveEntity;
+        public Entity RendererEntity;
     }
 }

@@ -42,7 +42,7 @@ namespace TMG.GameOfLiveV2
                 {
                     var curEntity = cellEntitiesReference[x, y].DataEntity;
                     var curCellData = EntityManager.GetComponentData<CellData>(curEntity);
-                    var aliveEntity = cellEntitiesReference[x, y].AliveEntity;
+                    var aliveEntity = cellEntitiesReference[x, y].RendererEntity;
 
                     var aliveTranslation = new Translation();
 
@@ -50,14 +50,11 @@ namespace TMG.GameOfLiveV2
                     {
                         curCellData.IsAlive = true;
                         aliveTranslation.Value = new float3(curCellData.GridPosition.x + 0.5f, curCellData.GridPosition.y + 0.5f, -5f);
-
-                        //EntityManager.AddComponent<SetAliveColorTag>(curRenderEntity);
                     }
                     else
                     {
                         curCellData.IsAlive = false;
                         aliveTranslation.Value = new float3(curCellData.GridPosition.x + 0.5f, curCellData.GridPosition.y + 0.5f, 5f);
-                        //EntityManager.AddComponent<SetDeadColorTag>(curRenderEntity);
                     }
                     EntityManager.SetComponentData(curEntity, curCellData);
                     EntityManager.SetComponentData(aliveEntity, aliveTranslation);
@@ -88,7 +85,7 @@ namespace TMG.GameOfLiveV2
             var selectedCellData = EntityManager.GetComponentData<CellData>(selectedCellEntity);
             selectedCellData.IsAlive = !selectedCellData.IsAlive;
             EntityManager.SetComponentData(selectedCellEntity, selectedCellData);
-            var aliveEntity = cellEntitiesReference[selectedCellData.GridPosition].AliveEntity;
+            var aliveEntity = cellEntitiesReference[selectedCellData.GridPosition].RendererEntity;
             var aliveTranslation = new Translation();
             
             if (selectedCellData.IsAlive)
@@ -101,11 +98,6 @@ namespace TMG.GameOfLiveV2
             }
             
             EntityManager.SetComponentData(aliveEntity, aliveTranslation);
-            
-            //var changeVitalState = new ChangeVitalState {Value = true};
-            //EntityManager.SetComponentData(selectedCellEntity, changeVitalState);
-            //var selectedRenderEntity = cellEntitiesReference[mouseGridPosition].RenderEntity;
-            //EntityManager.AddComponent<ChangeCellColorTag>(selectedRenderEntity);
         }
     }
 }

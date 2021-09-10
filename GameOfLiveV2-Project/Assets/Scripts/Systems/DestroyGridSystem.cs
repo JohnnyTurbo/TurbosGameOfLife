@@ -21,8 +21,7 @@ namespace TMG.GameOfLiveV2
                 {
                     var curCellEntities = cellEntitiesReference[x, y];
                     EntityManager.DestroyEntity(curCellEntities.DataEntity);
-                    //EntityManager.DestroyEntity(curCellEntities.RenderEntity);
-                    EntityManager.DestroyEntity(curCellEntities.AliveEntity);
+                    EntityManager.DestroyEntity(curCellEntities.RendererEntity);
                 }
             }
             

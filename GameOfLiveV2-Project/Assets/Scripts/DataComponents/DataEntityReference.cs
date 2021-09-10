@@ -3,8 +3,8 @@
 namespace TMG.GameOfLiveV2
 {
     [GenerateAuthoringComponent]
-    public struct AliveCellData : IComponentData
+    public struct DataEntityReference : IComponentData
     {
-        public Entity DataEntity;
+        public Entity Value;
     }
 }

@@ -31,7 +31,7 @@ namespace TMG.GameOfLiveV2
             var currentGridData = GetSingleton<CurrentGridData>();
             var allCellDataComponents = GetComponentDataFromEntity<CellData>(true);
             var gridSize = currentGridData.GridSize;
-            //var ecb = _endSimulationEntityCommandBufferSystem.CreateCommandBuffer().AsParallelWriter();
+            
             Entities
                 .WithReadOnly(allCellDataComponents)
                 .ForEach((Entity e, int entityInQueryIndex, ref ChangeVitalState changeVitalState, in CellData cellData,
@@ -56,23 +56,17 @@ namespace TMG.GameOfLiveV2
                     if (aliveNeighbors < 2)
                     {
                         // Die from underpopulation
-                        //var renderEntity = cellEntitiesReference[cellData.GridPosition].RenderEntity;
-                        //ecb.AddComponent<ChangeCellColorTag>(entityInQueryIndex, renderEntity);
                         changeVitalState.Value = true;
                     }
                     else if (aliveNeighbors > 3)
                     {
                         // Die from overpopulation
-                        //var renderEntity = cellEntitiesReference[cellData.GridPosition].RenderEntity;
-                        //ecb.AddComponent<ChangeCellColorTag>(entityInQueryIndex, renderEntity);
                         changeVitalState.Value = true;
                     }
                 }
                 else if (aliveNeighbors == 3)
                 {
                     // Birth by reproduction
-                    //var renderEntity = cellEntitiesReference[cellData.GridPosition].RenderEntity;
-                    //ecb.AddComponent<ChangeCellColorTag>(entityInQueryIndex, renderEntity);
                     changeVitalState.Value = true;
                 }
                 
