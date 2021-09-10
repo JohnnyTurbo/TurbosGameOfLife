@@ -16,15 +16,17 @@ namespace TMG.GameOfLiveV2
         [SerializeField] private KeyCode _stepKey;
         [SerializeField] private int2 _initialGridSize;
         
-        private bool isPaused = false;
-        private float timer;
+        private bool _isPaused = false;
+        private float _timer;
         private EntityManager _entityManager;
         private ProcessLifeSystem _processLifeSystem;
+        private ChangeVitalStateSystem _changeVitalStateSystem;
+        
         private int2 _gridSize;
         
         public int2 GridSize => _gridSize;
 
-        public bool IsPaused => isPaused;
+        public bool IsPaused => _isPaused;
 
         public int TotalEntityCount;
 
@@ -35,10 +37,10 @@ namespace TMG.GameOfLiveV2
 
         private void Start()
         {
-            timer = _tickRate;
+            _timer = _tickRate;
             _entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
             _processLifeSystem = World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<ProcessLifeSystem>();
-            
+            _changeVitalStateSystem = World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<ChangeVitalStateSystem>();
             InitializeGrid(_initialGridSize);
         }
 
@@ -49,18 +51,18 @@ namespace TMG.GameOfLiveV2
                 PlayPauseLife();
             }
 
-            if (isPaused && Input.GetKeyDown(_stepKey))
+            if (_isPaused && Input.GetKeyDown(_stepKey))
             {
                 AdvanceLife();
             }
 
-            if (!isPaused)
+            if (!_isPaused)
             {
-                timer -= Time.deltaTime;
-                if (timer <= 0)
+                _timer -= Time.deltaTime;
+                if (_timer <= 0)
                 {
-                    _processLifeSystem.Update();
-                    timer = _tickRate;
+                    AdvanceLife();
+                    _timer = _tickRate;
                 }
             }
 
@@ -72,12 +74,13 @@ namespace TMG.GameOfLiveV2
 
         public void PlayPauseLife()
         {
-            isPaused = !isPaused;
+            _isPaused = !_isPaused;
         }
 
         public void AdvanceLife()
         {
             _processLifeSystem.Update();
+            //_changeVitalStateSystem.Update();
         }
 
         public void ResizeGrid(int2 newGridSize)

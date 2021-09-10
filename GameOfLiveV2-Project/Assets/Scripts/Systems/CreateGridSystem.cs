@@ -25,8 +25,11 @@ namespace TMG.GameOfLiveV2
             CameraController.Instance.SetToGridFullscreen(currentGridData.GridSize);
 
             var cellCount = currentGridData.CellCount;
-            var newCellRenderEntities =
-                EntityManager.Instantiate(persistentGridData.CellPrefab, cellCount, Allocator.Temp);
+            /*var newCellRenderEntities =
+                EntityManager.Instantiate(persistentGridData.DeadCellPrefab, cellCount, Allocator.Temp);*/
+            var newAliveCellEntities =
+                EntityManager.Instantiate(persistentGridData.AliveCellPrefab, cellCount, Allocator.Temp);
+            
             var cellDataArchetype = EntityManager.CreateArchetype(typeof(CellData), typeof(CellEntitiesReference),
                 typeof(ChangeVitalState));
             var newCellDataEntities = EntityManager.CreateEntity(cellDataArchetype, cellCount, Allocator.Temp);
@@ -43,10 +46,13 @@ namespace TMG.GameOfLiveV2
                 
                 for (var y = 0; y < currentGridData.GridSize.y; y++)
                 {
-                    var cellRenderTranslation = new Translation {Value = new float3(x, y, 0)};
+                    var cellRenderTranslation = new Translation {Value = new float3(x, y, 5f)};
                     cellRenderTranslation.Value += persistentGridData.CellOffset;
-                    EntityManager.SetComponentData(newCellRenderEntities[tileIndex], cellRenderTranslation);
+                    EntityManager.SetComponentData(newAliveCellEntities[tileIndex], cellRenderTranslation);
 
+                    var newAliveCellData = new AliveCellData {DataEntity = newCellDataEntities[tileIndex]};
+                    EntityManager.SetComponentData(newAliveCellEntities[tileIndex], newAliveCellData);
+                    
                     var newCellData = new CellData
                     {
                         GridPosition = new int2(x, y),
@@ -57,7 +63,8 @@ namespace TMG.GameOfLiveV2
                     yArray[y] = new CellEntities
                     {
                         DataEntity = newCellDataEntities[tileIndex], 
-                        RenderEntity = newCellRenderEntities[tileIndex]
+                        //RenderEntity = newCellRenderEntities[tileIndex],
+                        AliveEntity = newAliveCellEntities[tileIndex]
                     };
                     tileIndex++;
                 }

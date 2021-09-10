@@ -3,6 +3,7 @@ using Unity.Rendering;
 
 namespace TMG.GameOfLiveV2
 {
+    [DisableAutoCreation]
     [UpdateInGroup(typeof(PresentationSystemGroup))]
     public class ChangeCellColorSystem : SystemBase
     {
@@ -28,6 +29,22 @@ namespace TMG.GameOfLiveV2
                 ecb.SetSharedComponent(e, renderMesh);
                 ecb.RemoveComponent<ChangeCellColorTag>(e);
             }).WithoutBurst().Run();
+            
+            Entities.WithAll<SetAliveColorTag>().ForEach((Entity e, RenderMesh renderMesh) =>
+            {
+                renderMesh.material = cellMaterialData.Alive;
+                ecb.SetSharedComponent(e, renderMesh);
+                ecb.RemoveComponent<SetAliveColorTag>(e);
+            }).WithoutBurst().Run();
+            
+            Entities.WithAll<SetDeadColorTag>().ForEach((Entity e, RenderMesh renderMesh) =>
+            {
+                renderMesh.material = cellMaterialData.Dead;
+                ecb.SetSharedComponent(e, renderMesh);
+                ecb.RemoveComponent<SetDeadColorTag>(e);
+            }).WithoutBurst().Run();
         }
     }
+    
+    
 }
