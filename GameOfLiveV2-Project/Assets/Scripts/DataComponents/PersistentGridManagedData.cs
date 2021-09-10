@@ -4,9 +4,8 @@ using UnityEngine;
 namespace TMG.GameOfLiveV2
 {
     [GenerateAuthoringComponent]
-    public class CellMaterialData : IComponentData
+    public class PersistentGridManagedData : IComponentData
     {
-        public Material Alive;
-        public Material Dead;
+        public Material GridMaterial;
     }
 }

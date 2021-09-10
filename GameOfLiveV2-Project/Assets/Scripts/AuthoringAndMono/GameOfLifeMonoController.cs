@@ -1,5 +1,4 @@
-﻿using Unity.Collections;
-using Unity.Entities;
+﻿using Unity.Entities;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -20,7 +19,6 @@ namespace TMG.GameOfLiveV2
         private float _timer;
         private EntityManager _entityManager;
         private ProcessLifeSystem _processLifeSystem;
-        private ChangeVitalStateSystem _changeVitalStateSystem;
         
         private int2 _gridSize;
         
@@ -40,7 +38,6 @@ namespace TMG.GameOfLiveV2
             _timer = _tickRate;
             _entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
             _processLifeSystem = World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<ProcessLifeSystem>();
-            _changeVitalStateSystem = World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<ChangeVitalStateSystem>();
             InitializeGrid(_initialGridSize);
         }
 
@@ -80,7 +77,6 @@ namespace TMG.GameOfLiveV2
         public void AdvanceLife()
         {
             _processLifeSystem.Update();
-            //_changeVitalStateSystem.Update();
         }
 
         public void ResizeGrid(int2 newGridSize)

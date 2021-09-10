@@ -13,9 +13,9 @@ namespace TMG.GameOfLiveV2
             Entities
                 .WithReadOnly(allCellDataComponents)
                 .ForEach(
-                    (Entity e, int entityInQueryIndex, ref Translation translation, in AliveCellData aliveCellData) =>
+                    (Entity e, int entityInQueryIndex, ref Translation translation, in DataEntityReference aliveCellData) =>
                     {
-                        if (allCellDataComponents[aliveCellData.DataEntity].IsAlive)
+                        if (allCellDataComponents[aliveCellData.Value].IsAlive)
                         {
                             translation.Value.z = -5f;
                         }

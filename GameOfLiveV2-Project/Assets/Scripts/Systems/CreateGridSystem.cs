@@ -2,6 +2,7 @@
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
+using UnityEngine;
 
 namespace TMG.GameOfLiveV2
 {
@@ -18,15 +19,26 @@ namespace TMG.GameOfLiveV2
             var gameController = GetSingletonEntity<GameControllerTag>();
             var currentGridData = EntityManager.GetComponentData<CurrentGridData>(gameController);
             var persistentGridData = EntityManager.GetComponentData<PersistentGridData>(gameController);
+            var persistentGridManagedData = EntityManager.GetComponentData<PersistentGridManagedData>(gameController);
             var newGridData = EntityManager.GetComponentData<NewGridData>(gameController);
             
             currentGridData.GridSize = newGridData.NewGridSize;
             EntityManager.SetComponentData(gameController, currentGridData);
             CameraController.Instance.SetToGridFullscreen(currentGridData.GridSize);
 
+            var backgroundEntity = persistentGridData.GridRenderer;
+            var backgroundTranslation = new Translation
+                {Value = new float3(currentGridData.GridSize.x / 2f, currentGridData.GridSize.y / 2f, 0f)};
+            var backgroundScale = new NonUniformScale
+                {Value = new float3(currentGridData.GridSize.x, currentGridData.GridSize.y, 1f)};
+            var backgroundMat = persistentGridManagedData.GridMaterial;
+            backgroundMat.mainTextureScale = new Vector2(currentGridData.GridSize.x, currentGridData.GridSize.y);
+            
+            EntityManager.SetComponentData(backgroundEntity, backgroundTranslation);
+            EntityManager.SetComponentData(backgroundEntity, backgroundScale);
+            
             var cellCount = currentGridData.CellCount;
-            /*var newCellRenderEntities =
-                EntityManager.Instantiate(persistentGridData.DeadCellPrefab, cellCount, Allocator.Temp);*/
+           
             var newAliveCellEntities =
                 EntityManager.Instantiate(persistentGridData.AliveCellPrefab, cellCount, Allocator.Temp);
             
@@ -50,7 +62,7 @@ namespace TMG.GameOfLiveV2
                     cellRenderTranslation.Value += persistentGridData.CellOffset;
                     EntityManager.SetComponentData(newAliveCellEntities[tileIndex], cellRenderTranslation);
 
-                    var newAliveCellData = new AliveCellData {DataEntity = newCellDataEntities[tileIndex]};
+                    var newAliveCellData = new DataEntityReference {Value = newCellDataEntities[tileIndex]};
                     EntityManager.SetComponentData(newAliveCellEntities[tileIndex], newAliveCellData);
                     
                     var newCellData = new CellData
@@ -63,8 +75,7 @@ namespace TMG.GameOfLiveV2
                     yArray[y] = new CellEntities
                     {
                         DataEntity = newCellDataEntities[tileIndex], 
-                        //RenderEntity = newCellRenderEntities[tileIndex],
-                        AliveEntity = newAliveCellEntities[tileIndex]
+                        RendererEntity = newAliveCellEntities[tileIndex]
                     };
                     tileIndex++;
                 }

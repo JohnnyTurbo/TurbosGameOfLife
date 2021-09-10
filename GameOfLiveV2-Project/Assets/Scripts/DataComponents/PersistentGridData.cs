@@ -6,8 +6,8 @@ namespace TMG.GameOfLiveV2
     [GenerateAuthoringComponent]
     public struct PersistentGridData : IComponentData
     {
-        public Entity DeadCellPrefab;
         public Entity AliveCellPrefab;
         public float3 CellOffset;
+        public Entity GridRenderer;
     }
 }
