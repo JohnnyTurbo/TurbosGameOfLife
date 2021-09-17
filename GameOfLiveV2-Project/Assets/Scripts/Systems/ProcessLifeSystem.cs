@@ -4,7 +4,7 @@ using Unity.Mathematics;
 namespace TMG.GameOfLiveV2
 {
     [DisableAutoCreation]
-    [UpdateAfter(typeof(ChangeSelectedCellSystem))]
+    [UpdateAfter(typeof(ChangeCellsSystem))]
     public class ProcessLifeSystem : SystemBase
     {
         private EndSimulationEntityCommandBufferSystem _endSimulationEntityCommandBufferSystem;

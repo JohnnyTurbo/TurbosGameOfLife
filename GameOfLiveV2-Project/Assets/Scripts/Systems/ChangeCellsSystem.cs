@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace TMG.GameOfLiveV2
 {
-    public class ChangeSelectedCellSystem : SystemBase
+    public class ChangeCellsSystem : SystemBase
     {
         private Camera _mainCamera;
         private Entity _gameController;
@@ -29,7 +29,7 @@ namespace TMG.GameOfLiveV2
             }
         }
 
-        private void RandomizeAllCells()
+        public void RandomizeAllCells()
         {
             var currentGridData = EntityManager.GetComponentData<CurrentGridData>(_gameController);
             var cellEntitiesReference = EntityManager.GetComponentData<CellEntitiesReference>(_gameController);

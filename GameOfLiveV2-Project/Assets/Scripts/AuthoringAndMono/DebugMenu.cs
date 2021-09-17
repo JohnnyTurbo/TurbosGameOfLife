@@ -75,14 +75,21 @@ namespace TMG.GameOfLiveV2
             _newGridHeightString = GUI.TextField(new Rect(Screen.width - _debugPanelWidth + 170, 320, 160, 50),
                 _newGridHeightString, 4);
 
-            if(GUI.Button(new Rect(Screen.width - _debugPanelWidth, 370, 160, 50), "Resize"))
+            if(GUI.Button(new Rect(Screen.width - _debugPanelWidth, 390, 160, 50), "Resize"))
             {
                 if (int.TryParse(_newGridWidthString, out var newGridWidth) &&
                     int.TryParse(_newGridHeightString, out var newGridHeight))
                 {
                     _gameOfLifeMonoController.ResizeGrid(new int2(newGridWidth, newGridHeight));
                 }
-                
+            }
+            if(GUI.Button(new Rect(Screen.width - _debugPanelWidth + 170, 390, 160, 50), "Randomize"))
+            {
+                if (int.TryParse(_newGridWidthString, out var newGridWidth) &&
+                    int.TryParse(_newGridHeightString, out var newGridHeight))
+                {
+                    _gameOfLifeMonoController.RandomizeGrid();
+                }
             }
         }
     }
