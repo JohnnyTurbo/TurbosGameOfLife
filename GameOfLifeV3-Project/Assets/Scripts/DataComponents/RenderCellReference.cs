@@ -1,6 +1,6 @@
 ﻿using Unity.Entities;
 
-namespace TMG.GameOfLiveV3
+namespace TMG.GameOfLifeV3
 {
     public struct RenderCellReference : IComponentData
     {

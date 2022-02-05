@@ -2,7 +2,7 @@
 using Unity.Mathematics;
 using Unity.Transforms;
 
-namespace TMG.GameOfLiveV3
+namespace TMG.GameOfLifeV3
 {
     public class RowColumnSpawnSystem : SystemBase
     {

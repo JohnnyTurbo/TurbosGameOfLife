@@ -2,7 +2,7 @@
 using Unity.Mathematics;
 using Unity.Rendering;
 
-namespace TMG.GameOfLiveV3
+namespace TMG.GameOfLifeV3
 {
     [GenerateAuthoringComponent]
     [MaterialProperty("_Color", MaterialPropertyFormat.Float4)]

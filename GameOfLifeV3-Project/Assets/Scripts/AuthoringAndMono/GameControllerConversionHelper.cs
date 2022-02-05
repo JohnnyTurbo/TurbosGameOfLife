@@ -1,7 +1,7 @@
 ﻿using Unity.Entities;
 using UnityEngine;
 
-namespace TMG.GameOfLiveV3
+namespace TMG.GameOfLifeV3
 {
     public class GameControllerConversionHelper : MonoBehaviour, IConvertGameObjectToEntity
     {

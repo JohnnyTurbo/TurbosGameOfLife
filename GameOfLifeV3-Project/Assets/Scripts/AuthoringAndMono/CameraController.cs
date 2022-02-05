@@ -1,7 +1,7 @@
 ﻿using Unity.Mathematics;
 using UnityEngine;
 
-namespace TMG.GameOfLiveV3
+namespace TMG.GameOfLifeV3
 {
     public class CameraController : MonoBehaviour
     {

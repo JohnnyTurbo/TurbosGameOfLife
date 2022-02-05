@@ -4,7 +4,7 @@ using Unity.Entities;
 using Unity.Mathematics;
 using UnityEngine;
 
-namespace TMG.GameOfLiveV3
+namespace TMG.GameOfLifeV3
 {
     public class ColorCellsSystem : SystemBase
     {
@@ -24,12 +24,6 @@ namespace TMG.GameOfLiveV3
                 RenderCellHandle = GetComponentTypeHandle<RenderCellReference>(),
                 ecb = _endSimulationECBSystem.CreateCommandBuffer().AsParallelWriter()
             };
-
-            /*var newColorJob = new ColorCellsJob
-            {
-                ElapsedTime = Time.ElapsedTime,
-                CellColorTypeHandle = GetComponentTypeHandle<CellColorData>(false)
-            };*/
 
             Dependency = newColorJob.ScheduleParallel(eq, 1, Dependency);
             Dependency.Complete();

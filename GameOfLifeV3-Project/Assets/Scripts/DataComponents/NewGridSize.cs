@@ -1,7 +1,7 @@
 ﻿using Unity.Entities;
 using Unity.Mathematics;
 
-namespace TMG.GameOfLiveV3
+namespace TMG.GameOfLifeV3
 {
     [GenerateAuthoringComponent]
     public struct NewGridSize : IComponentData
