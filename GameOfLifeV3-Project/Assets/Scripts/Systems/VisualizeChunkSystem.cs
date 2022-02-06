@@ -6,7 +6,8 @@ using UnityEngine;
 
 namespace TMG.GameOfLifeV3
 {
-    public class ColorCellsSystem : SystemBase
+    [DisableAutoCreation]
+    public class VisualizeChunkSystem : SystemBase
     {
         private EndSimulationEntityCommandBufferSystem _endSimulationECBSystem;
 

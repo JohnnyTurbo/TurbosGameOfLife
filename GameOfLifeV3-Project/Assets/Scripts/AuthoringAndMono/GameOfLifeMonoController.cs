@@ -15,10 +15,10 @@ namespace TMG.GameOfLifeV3
         [SerializeField] private KeyCode _stepKey;
         [SerializeField] private int2 _initialGridSize;
         
-        private bool _isPaused = false;
+        private bool _isPaused = true;
         private float _timer;
         private EntityManager _entityManager;
-        //private ProcessLifeSystem _processLifeSystem;
+        private ProcessLifeSystem _processLifeSystem;
         //private ChangeCellsSystem _changeCellsSystem;
         
         private int2 _gridSize;
@@ -38,7 +38,7 @@ namespace TMG.GameOfLifeV3
         {
             _timer = _tickRate;
             _entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
-            //_processLifeSystem = World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<ProcessLifeSystem>();
+            _processLifeSystem = World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<ProcessLifeSystem>();
             //_changeCellsSystem = World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<ChangeCellsSystem>();
             //InitializeGrid(_initialGridSize);
         }
@@ -78,7 +78,7 @@ namespace TMG.GameOfLifeV3
 
         public void AdvanceLife()
         {
-            //_processLifeSystem.Update();
+            _processLifeSystem.Update();
         }
 
         /*public void RandomizeGrid()

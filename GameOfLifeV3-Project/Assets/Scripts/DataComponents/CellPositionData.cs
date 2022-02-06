@@ -5,14 +5,14 @@ namespace TMG.GameOfLifeV3
 {
     public struct CellPositionData : IComponentData
     {
-        public float2 Value;
+        public int2 Value;
 
-        public static implicit operator float2(CellPositionData cellPositionData)
+        public static implicit operator int2(CellPositionData cellPositionData)
         {
             return cellPositionData.Value;
         }
 
-        public static implicit operator CellPositionData(float2 newPosition)
+        public static implicit operator CellPositionData(int2 newPosition)
         {
             return new CellPositionData {Value = newPosition};
         }
