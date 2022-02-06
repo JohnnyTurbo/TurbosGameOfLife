@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace TMG.GameOfLifeV3
 {
+    [UpdateAfter(typeof(ProcessLifeSystem))]
     public class SetColorSystem : SystemBase
     {
         private BeginPresentationEntityCommandBufferSystem _ecbSystem;
@@ -27,7 +28,7 @@ namespace TMG.GameOfLifeV3
             };
 
             Dependency = newColorJob.ScheduleParallel(eq, 1, Dependency);
-            Dependency.Complete();
+            _ecbSystem.AddJobHandleForProducer(Dependency);
         }
     }
 

@@ -19,7 +19,7 @@ namespace TMG.GameOfLifeV3
         private float _timer;
         private EntityManager _entityManager;
         private ProcessLifeSystem _processLifeSystem;
-        //private ChangeCellsSystem _changeCellsSystem;
+        private ChangeCellsSystem _changeCellsSystem;
         
         private int2 _gridSize;
         
@@ -39,7 +39,7 @@ namespace TMG.GameOfLifeV3
             _timer = _tickRate;
             _entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
             _processLifeSystem = World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<ProcessLifeSystem>();
-            //_changeCellsSystem = World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<ChangeCellsSystem>();
+            _changeCellsSystem = World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<ChangeCellsSystem>();
             //InitializeGrid(_initialGridSize);
         }
 
@@ -81,12 +81,12 @@ namespace TMG.GameOfLifeV3
             _processLifeSystem.Update();
         }
 
-        /*public void RandomizeGrid()
+        public void RandomizeGrid()
         {
             _changeCellsSystem.RandomizeAllCells();
         }
         
-        public void ResizeGrid(int2 newGridSize)
+        /*public void ResizeGrid(int2 newGridSize)
         {
             DestroyGrid();
             InitializeGrid(newGridSize);

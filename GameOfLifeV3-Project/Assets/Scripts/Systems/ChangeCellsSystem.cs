@@ -40,7 +40,7 @@ namespace TMG.GameOfLifeV3
                 for (var y = 0; y < gridSize.y; y++)
                 {
                     var curEntity = cellEntitiesReference[x, y].DataEntity;
-                    var curCellData = EntityManager.GetComponentData<CellVitalData>(curEntity);
+                    CellVitalData curCellData;
                     
                     if (currentGridData.ShouldSpawnRandomCell)
                     {
@@ -51,10 +51,8 @@ namespace TMG.GameOfLifeV3
                         curCellData = false;
                     }
                     EntityManager.SetComponentData(curEntity, curCellData);
-
                 }
             }
-            
             EntityManager.SetComponentData(_gameController, currentGridData);
         }
 

@@ -25,6 +25,7 @@ namespace TMG.GameOfLifeV3
             var currentGridData = EntityManager.GetComponentData<CurrentGridData>(gameController);
             int2 newGridSize = GetSingleton<NewGridSize>();
             currentGridData.GridSize = newGridSize;
+            CameraController.Instance.SetToGridFullscreen(currentGridData.GridSize);
             EntityManager.SetComponentData(gameController, currentGridData);
             Entity cellRenderPrefab = GetSingleton<CellRendererPrefab>();
             var cellCount = newGridSize.x * newGridSize.y;
