@@ -54,16 +54,12 @@ namespace TMG.GameOfLifeV3
                     var newRenderCell = EntityManager.Instantiate(cellRenderPrefab);
                     var cellRenderTranslation = new Translation {Value = new float3(x, y, 5f)};
                     EntityManager.SetComponentData(newRenderCell, cellRenderTranslation);
-                    //ecb.SetComponent(newRenderCell, cellRenderTranslation);
                     
                     var newCell = EntityManager.CreateEntity(_cellArchetype);
                     var newCellPosition = new CellPositionData {Value = new int2(x, y)};
                     var renderCellReference = new RenderCellReference {Value = newRenderCell};
-                    var cellVitalData = new CellVitalData
-                    {
-                        //Makes a checkerboard pattern
-                        Value = (x + y) % 2 == 0
-                    };
+                    var cellVitalData = new CellVitalData {Value = false};
+                    
                     EntityManager.SetComponentData(newCell, newCellPosition);
                     EntityManager.SetComponentData(newCell, renderCellReference);
                     EntityManager.SetComponentData(newCell, cellVitalData);

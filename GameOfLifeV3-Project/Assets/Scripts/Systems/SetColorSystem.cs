@@ -7,6 +7,7 @@ using UnityEngine;
 namespace TMG.GameOfLifeV3
 {
     [UpdateAfter(typeof(ProcessLifeSystem))]
+    //[DisableAutoCreation]
     public class SetColorSystem : SystemBase
     {
         private BeginPresentationEntityCommandBufferSystem _ecbSystem;

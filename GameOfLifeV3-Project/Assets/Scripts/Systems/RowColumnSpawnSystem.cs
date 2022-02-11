@@ -51,11 +51,8 @@ namespace TMG.GameOfLifeV3
                     var newCell = EntityManager.CreateEntity(_cellArchetype);
                     var newCellPosition = new CellPositionData {Value = new int2(x, y)};
                     var renderCellReference = new RenderCellReference {Value = newRenderCell};
-                    var cellVitalData = new CellVitalData
-                    {
-                        //Makes a checkerboard pattern
-                        Value = (x + y) % 2 == 0
-                    };
+                    var cellVitalData = new CellVitalData {Value = false};
+
                     EntityManager.SetComponentData(newCell, newCellPosition);
                     EntityManager.SetComponentData(newCell, renderCellReference);
                     EntityManager.SetComponentData(newCell, cellVitalData);
