@@ -19,6 +19,7 @@ namespace TMG.GameOfLifeV3
         private float _timer;
         private EntityManager _entityManager;
         private ProcessLifeSystem _processLifeSystem;
+        private ProcessLifeBufferSystem _processLifeBufferSystem;
         private ChangeCellsSystem _changeCellsSystem;
         
         private int2 _gridSize;
@@ -39,6 +40,8 @@ namespace TMG.GameOfLifeV3
             _timer = _tickRate;
             _entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
             _processLifeSystem = World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<ProcessLifeSystem>();
+            _processLifeBufferSystem =
+                World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<ProcessLifeBufferSystem>();
             _changeCellsSystem = World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<ChangeCellsSystem>();
             //InitializeGrid(_initialGridSize);
         }
@@ -79,6 +82,7 @@ namespace TMG.GameOfLifeV3
         public void AdvanceLife()
         {
             _processLifeSystem.Update();
+            //_processLifeBufferSystem.Update();
         }
 
         public void RandomizeGrid()
