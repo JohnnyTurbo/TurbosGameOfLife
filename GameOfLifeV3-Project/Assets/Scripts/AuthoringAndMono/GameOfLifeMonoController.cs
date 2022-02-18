@@ -19,7 +19,9 @@ namespace TMG.GameOfLifeV3
         private bool _isPaused = true;
         private float _timer;
         private EntityManager _entityManager;
-        private ProcessLifeSystem _processLifeSystem;
+        private SystemBase _processLifeSystem;
+        private ProcessLifeSystem _regularLifeSystem;
+        private ProcessLifeBufferSystem _bufferLifeSystem;
         private ProcessLifeBufferSystem _processLifeBufferSystem;
         private ChangeCellsSystem _changeCellsSystem;
         private SystemBase _currentVisualizationSystem;
@@ -44,7 +46,9 @@ namespace TMG.GameOfLifeV3
             _timer = _tickRate;
             var goWorld = World.DefaultGameObjectInjectionWorld;
             _entityManager = goWorld.EntityManager;
-            _processLifeSystem = goWorld.GetOrCreateSystem<ProcessLifeSystem>();
+            _regularLifeSystem = goWorld.GetOrCreateSystem<ProcessLifeSystem>();
+            _bufferLifeSystem = goWorld.GetOrCreateSystem<ProcessLifeBufferSystem>();
+            _processLifeSystem = _regularLifeSystem;
             _processLifeBufferSystem = goWorld.GetOrCreateSystem<ProcessLifeBufferSystem>();
             _changeCellsSystem = goWorld.GetOrCreateSystem<ChangeCellsSystem>();
             _setColorSystem = goWorld.GetOrCreateSystem<SetColorSystem>();
@@ -100,24 +104,24 @@ namespace TMG.GameOfLifeV3
 
         public void ChangeVisualizationType(GridVisualizationType visualizationType)
         {
-            Debug.Log($"Changing visualization type to: {visualizationType.ToString()}");
             _currentVisualizationSystem.Enabled = false;
-            Debug.Log($"Disabled {_currentVisualizationSystem.ToString()}");
-            switch (visualizationType)
+            _currentVisualizationSystem = visualizationType switch
             {
-                case GridVisualizationType.GameOfLife:
-                    _currentVisualizationSystem = _setColorSystem;
-                    break;
-                case GridVisualizationType.ChunkViewer:
-                    _currentVisualizationSystem = _visualizeChunkSystem;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(visualizationType), visualizationType, null);
-            }
-
+                GridVisualizationType.GameOfLife => _setColorSystem,
+                GridVisualizationType.ChunkViewer => _visualizeChunkSystem,
+                _ => throw new ArgumentOutOfRangeException(nameof(visualizationType), visualizationType, null)
+            };
             _currentVisualizationSystem.Enabled = true;
-            Debug.Log($"Enabled {_currentVisualizationSystem.ToString()}");
+        }
 
+        public void ChangeProcessLifeType(CellReferenceType referenceType)
+        {
+            _processLifeSystem = referenceType switch
+            {
+                CellReferenceType.BlobAsset => _regularLifeSystem,
+                CellReferenceType.DynamicBuffer => _bufferLifeSystem,
+                _ => throw new ArgumentOutOfRangeException(nameof(referenceType), referenceType, null)
+            };
         }
         
         /*public void ResizeGrid(int2 newGridSize)

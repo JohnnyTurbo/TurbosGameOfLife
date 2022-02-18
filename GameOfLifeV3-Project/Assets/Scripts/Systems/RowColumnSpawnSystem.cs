@@ -5,7 +5,7 @@ using Unity.Transforms;
 
 namespace TMG.GameOfLifeV3
 {
-    //[DisableAutoCreation]
+    [DisableAutoCreation]
     public class RowColumnSpawnSystem : SystemBase
     {
         private EntityArchetype _cellArchetype;
@@ -24,7 +24,7 @@ namespace TMG.GameOfLifeV3
             //var ecb = _endSimulationECBSystem.CreateCommandBuffer();
             var gameController = GetSingletonEntity<GameControllerTag>();
             var currentGridData = EntityManager.GetComponentData<CurrentGridData>(gameController);
-            var cellOffset = EntityManager.GetComponentData<GridOptionData>(gameController);
+            var gridOptions = EntityManager.GetComponentData<GridOptionData>(gameController);
             int2 newGridSize = GetSingleton<NewGridSize>();
             
             currentGridData.GridSize = newGridSize;
@@ -44,7 +44,7 @@ namespace TMG.GameOfLifeV3
                 {
                     var newRenderCell = EntityManager.Instantiate(cellRenderPrefab);
                     var cellRenderTranslation = new Translation {Value = new float3(x, y, 5f)};
-                    cellRenderTranslation.Value += cellOffset.PositionOffset;
+                    cellRenderTranslation.Value += gridOptions.PositionOffset;
                     EntityManager.SetComponentData(newRenderCell, cellRenderTranslation);
                     //ecb.SetComponent(newRenderCell, cellRenderTranslation);
                     
