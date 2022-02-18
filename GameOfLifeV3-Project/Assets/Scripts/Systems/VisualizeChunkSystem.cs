@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace TMG.GameOfLifeV3
 {
-    [DisableAutoCreation]
+    //[DisableAutoCreation]
     public class VisualizeChunkSystem : SystemBase
     {
         private EndSimulationEntityCommandBufferSystem _endSimulationECBSystem;

@@ -188,7 +188,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gameOfLifeMonoController: {fileID: 165528023}
   _debugPanelWidth: 350
-  _debugPanelHeight: 445
+  _debugPanelHeight: 655
   _fpsPollRate: 1
   _padding: 10
 --- !u!1 &705507993
@@ -550,7 +550,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecaebe925c6d4f6889bd799292aed777, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Value:
-    x: 0.5
-    y: 0.5
+  PositionOffset:
+    x: 0
+    y: 0
     z: 0
+  CellReferenceType: 0
+  GridOrganizationPattern: 0
+  GridVisualizationType: 0

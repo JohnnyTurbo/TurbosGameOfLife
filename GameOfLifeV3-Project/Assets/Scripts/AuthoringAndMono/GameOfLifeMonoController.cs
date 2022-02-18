@@ -1,4 +1,5 @@
-﻿using Unity.Entities;
+﻿using System;
+using Unity.Entities;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -21,6 +22,9 @@ namespace TMG.GameOfLifeV3
         private ProcessLifeSystem _processLifeSystem;
         private ProcessLifeBufferSystem _processLifeBufferSystem;
         private ChangeCellsSystem _changeCellsSystem;
+        private SystemBase _currentVisualizationSystem;
+        private SetColorSystem _setColorSystem;
+        private VisualizeChunkSystem _visualizeChunkSystem;
         
         private int2 _gridSize;
         
@@ -38,12 +42,16 @@ namespace TMG.GameOfLifeV3
         private void Start()
         {
             _timer = _tickRate;
-            _entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
-            _processLifeSystem = World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<ProcessLifeSystem>();
-            _processLifeBufferSystem =
-                World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<ProcessLifeBufferSystem>();
-            _changeCellsSystem = World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<ChangeCellsSystem>();
-            //InitializeGrid(_initialGridSize);
+            var goWorld = World.DefaultGameObjectInjectionWorld;
+            _entityManager = goWorld.EntityManager;
+            _processLifeSystem = goWorld.GetOrCreateSystem<ProcessLifeSystem>();
+            _processLifeBufferSystem = goWorld.GetOrCreateSystem<ProcessLifeBufferSystem>();
+            _changeCellsSystem = goWorld.GetOrCreateSystem<ChangeCellsSystem>();
+            _setColorSystem = goWorld.GetOrCreateSystem<SetColorSystem>();
+            _visualizeChunkSystem = goWorld.GetOrCreateSystem<VisualizeChunkSystem>();
+            _visualizeChunkSystem.Enabled = false;
+            _currentVisualizationSystem = _setColorSystem;
+            _currentVisualizationSystem.Enabled = false;
         }
 
         private void Update()
@@ -88,6 +96,28 @@ namespace TMG.GameOfLifeV3
         public void RandomizeGrid()
         {
             _changeCellsSystem.RandomizeAllCells();
+        }
+
+        public void ChangeVisualizationType(GridVisualizationType visualizationType)
+        {
+            Debug.Log($"Changing visualization type to: {visualizationType.ToString()}");
+            _currentVisualizationSystem.Enabled = false;
+            Debug.Log($"Disabled {_currentVisualizationSystem.ToString()}");
+            switch (visualizationType)
+            {
+                case GridVisualizationType.GameOfLife:
+                    _currentVisualizationSystem = _setColorSystem;
+                    break;
+                case GridVisualizationType.ChunkViewer:
+                    _currentVisualizationSystem = _visualizeChunkSystem;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(visualizationType), visualizationType, null);
+            }
+
+            _currentVisualizationSystem.Enabled = true;
+            Debug.Log($"Enabled {_currentVisualizationSystem.ToString()}");
+
         }
         
         /*public void ResizeGrid(int2 newGridSize)

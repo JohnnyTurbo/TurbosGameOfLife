@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -19,6 +20,10 @@ namespace TMG.GameOfLifeV3
         private string _newGridWidthString = "10";
         private string _newGridHeightString = "10";
 
+        private CellReferenceType _cellReferenceType;
+        private GridOrganizationPattern _gridOrganizationPattern;
+        private GridVisualizationType _gridVisualizationType;
+        
         private void Start()
         {
             _timer = _fpsPollRate;
@@ -91,6 +96,23 @@ namespace TMG.GameOfLifeV3
                 {
                     _gameOfLifeMonoController.RandomizeGrid();
                 }
+            }
+
+            _cellReferenceType = (CellReferenceType) GUI.SelectionGrid(
+                new Rect(Screen.width - _debugPanelWidth, 460, 330, 50), (int) _cellReferenceType,
+                Enum.GetNames(typeof(CellReferenceType)), 2);
+            
+            _gridOrganizationPattern = (GridOrganizationPattern) GUI.SelectionGrid(
+                new Rect(Screen.width - _debugPanelWidth, 530, 330, 50), (int) _gridOrganizationPattern,
+                Enum.GetNames(typeof(GridOrganizationPattern)), 2);
+            
+            _gridVisualizationType = (GridVisualizationType) GUI.SelectionGrid(
+                new Rect(Screen.width - _debugPanelWidth, 600, 330, 50), (int) _gridVisualizationType,
+                Enum.GetNames(typeof(GridVisualizationType)), 2);
+            
+            if (GUI.changed)
+            {
+                _gameOfLifeMonoController.ChangeVisualizationType(_gridVisualizationType);
             }
         }
     }
