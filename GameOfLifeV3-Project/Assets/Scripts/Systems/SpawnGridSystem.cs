@@ -3,6 +3,7 @@ using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
+using UnityEngine;
 
 namespace TMG.GameOfLifeV3
 {
@@ -62,7 +63,7 @@ namespace TMG.GameOfLifeV3
                     throw new ArgumentOutOfRangeException();
             }
 
-            var cellEntitiesReference = GetBlobAssetReference();
+            var cellEntitiesReference = GetBlobAssetReference(_newGridSize);
             
             EntityManager.SetComponentData(_gameController, cellEntitiesReference);
 
@@ -97,9 +98,18 @@ namespace TMG.GameOfLifeV3
             GameOfLifeMonoController.Instance.ChangeProcessLifeType(_gridOptions.CellReferenceType);
         }
 
-        private CellEntitiesReference GetBlobAssetReference()
+        public void ResetBlobAsset()
         {
-            var cellCount = _newGridSize.x * _newGridSize.y;
+            Debug.Log("restting blob asset");
+            _gameController = GetSingletonEntity<GameControllerTag>();
+            var curSize = EntityManager.GetComponentData<CurrentGridData>(_gameController);
+            var cellEntitiesReference = GetBlobAssetReference(curSize.GridSize);
+            EntityManager.SetComponentData(_gameController, cellEntitiesReference);
+        }
+        
+        private CellEntitiesReference GetBlobAssetReference(int2 gridSize)
+        {
+            var cellCount = gridSize.x * gridSize.y;
             using var blobBuilder = new BlobBuilder(Allocator.Temp);
             ref var cellEntitiesBlob = ref blobBuilder.ConstructRoot<CellEntitiesBlob>();
             var blobData = blobBuilder.Allocate(ref cellEntitiesBlob.Value, cellCount);
@@ -112,7 +122,7 @@ namespace TMG.GameOfLifeV3
                 var cellPosition = EntityManager.GetComponentData<CellPositionData>(entity).Value;
                 var renderEntity = EntityManager.GetComponentData<RenderCellReference>(entity).Value;
                 
-                blobData[FlatIndex(cellPosition.x, cellPosition.y, _newGridSize.y)] = new CellEntities
+                blobData[FlatIndex(cellPosition.x, cellPosition.y, gridSize.y)] = new CellEntities
                 {
                     RenderEntity = renderEntity,
                     DataEntity = entity
@@ -123,7 +133,7 @@ namespace TMG.GameOfLifeV3
             var cellEntitiesReference = new CellEntitiesReference
             {
                 Value = blobAssetReference,
-                GridHeight = _newGridSize.y
+                GridHeight = gridSize.y
             };
 
             return cellEntitiesReference;

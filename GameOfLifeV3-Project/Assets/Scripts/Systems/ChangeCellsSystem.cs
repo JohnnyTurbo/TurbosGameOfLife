@@ -4,10 +4,16 @@ using UnityEngine;
 
 namespace TMG.GameOfLifeV3
 {
+    [AlwaysUpdateSystem]
     public class ChangeCellsSystem : SystemBase
     {
         private Camera _mainCamera;
         private Entity _gameController;
+
+        public void AfterReloadOps()
+        {
+            _gameController = GetSingletonEntity<GameControllerTag>();
+        }
         
         protected override void OnStartRunning()
         {

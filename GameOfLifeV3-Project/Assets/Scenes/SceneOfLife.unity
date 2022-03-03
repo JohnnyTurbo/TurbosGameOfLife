@@ -453,8 +453,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Value:
-    x: 20
-    y: 20
+    x: 5
+    y: 5
 --- !u!114 &1694063184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -554,6 +554,6 @@ MonoBehaviour:
     x: 0.5
     y: 0.5
     z: 0
-  CellReferenceType: 0
+  CellReferenceType: 1
   GridOrganizationPattern: 0
   GridVisualizationType: 0
