@@ -85,8 +85,8 @@ namespace TMG.GameOfLifeV3
                 if (int.TryParse(_newGridWidthString, out var newGridWidth) &&
                     int.TryParse(_newGridHeightString, out var newGridHeight))
                 {
-                    //_gameOfLifeMonoController.ResizeGrid(new int2(newGridWidth, newGridHeight));
-                    Debug.Log("Tell the developer to implement the 'Resize Grid' Feature");
+                    _gameOfLifeMonoController.ResizeGrid(new int2(newGridWidth, newGridHeight));
+                    //Debug.Log("Tell the developer to implement the 'Resize Grid' Feature");
                 }
             }
             if(GUI.Button(new Rect(Screen.width - _debugPanelWidth + 170, 390, 160, 50), "Randomize"))

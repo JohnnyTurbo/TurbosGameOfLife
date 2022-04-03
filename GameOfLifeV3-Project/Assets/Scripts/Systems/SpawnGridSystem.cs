@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace TMG.GameOfLifeV3
 {
-    public class SpawnGridSystem : SystemBase
+    public partial class SpawnGridSystem : SystemBase
     {
         private EntityArchetype _cellArchetype;
         private EndSimulationEntityCommandBufferSystem _endSimulationECBSystem;

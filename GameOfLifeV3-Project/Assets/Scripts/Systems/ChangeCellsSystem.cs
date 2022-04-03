@@ -1,11 +1,11 @@
-﻿using Unity.Entities;
+using Unity.Entities;
 using Unity.Mathematics;
 using UnityEngine;
 
 namespace TMG.GameOfLifeV3
 {
     [AlwaysUpdateSystem]
-    public class ChangeCellsSystem : SystemBase
+    public partial class ChangeCellsSystem : SystemBase
     {
         private Camera _mainCamera;
         private Entity _gameController;

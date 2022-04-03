@@ -1,4 +1,4 @@
-﻿using Unity.Burst;
+using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
@@ -6,9 +6,9 @@ using UnityEngine;
 
 namespace TMG.GameOfLifeV3
 {
-    [UpdateAfter(typeof(ProcessLifeSystem))]
-    //[DisableAutoCreation]
-    public class SetColorSystem : SystemBase
+    [UpdateInGroup(typeof(SimulationSystemGroup))]
+    [UpdateAfter(typeof(DestroyGridSystem))]
+    public partial class SetColorSystem : SystemBase
     {
         private BeginPresentationEntityCommandBufferSystem _ecbSystem;
 
@@ -27,8 +27,8 @@ namespace TMG.GameOfLifeV3
                 CellVitalDataTypeHandle = GetComponentTypeHandle<CellVitalData>(true),
                 ecb = _ecbSystem.CreateCommandBuffer().AsParallelWriter()
             };
-
-            Dependency = newColorJob.ScheduleParallel(eq, 1, Dependency);
+            //newColorJob.ScheduleParallel(eq, Dependency);
+            Dependency = newColorJob.ScheduleParallel(eq, Dependency);
             _ecbSystem.AddJobHandleForProducer(Dependency);
         }
     }

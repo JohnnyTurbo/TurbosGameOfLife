@@ -27,6 +27,7 @@ namespace TMG.GameOfLifeV3
         private SystemBase _currentVisualizationSystem;
         private SetColorSystem _setColorSystem;
         private VisualizeChunkSystem _visualizeChunkSystem;
+        private BeginInitializationEntityCommandBufferSystem _beginInitializationECBSystem;
         
         private int2 _gridSize;
         
@@ -55,7 +56,8 @@ namespace TMG.GameOfLifeV3
             _visualizeChunkSystem = goWorld.GetOrCreateSystem<VisualizeChunkSystem>();
             _visualizeChunkSystem.Enabled = false;
             _currentVisualizationSystem = _setColorSystem;
-            _currentVisualizationSystem.Enabled = false;
+            _currentVisualizationSystem.Enabled = true;
+            _beginInitializationECBSystem = goWorld.GetExistingSystem<BeginInitializationEntityCommandBufferSystem>();
         }
 
         private void Update()
@@ -124,7 +126,7 @@ namespace TMG.GameOfLifeV3
             };
         }
         
-        /*public void ResizeGrid(int2 newGridSize)
+        public void ResizeGrid(int2 newGridSize)
         {
             DestroyGrid();
             InitializeGrid(newGridSize);
@@ -133,13 +135,14 @@ namespace TMG.GameOfLifeV3
         private void InitializeGrid(int2 newGridSize)
         {
             _gridSize = newGridSize;
-            var newGridData = new NewGridData {NewGridSize = newGridSize};
-            _entityManager.AddComponentData(GameControllerEntity, newGridData);
+            var newGridData = new NewGridSize {Value = newGridSize};
+            var ecb = _beginInitializationECBSystem.CreateCommandBuffer();
+            ecb.AddComponent(GameControllerEntity, newGridData);
         }
 
         private void DestroyGrid()
         {
             _entityManager.AddComponent<DestroyGridTag>(GameControllerEntity);
-        }*/
+        }
     }
 }

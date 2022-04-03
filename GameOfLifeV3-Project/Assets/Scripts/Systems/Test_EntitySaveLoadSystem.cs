@@ -1,4 +1,4 @@
-﻿using Unity.Collections;
+using Unity.Collections;
 using Unity.Entities;
 using Unity.Entities.Serialization;
 using Unity.Scenes;
@@ -8,7 +8,7 @@ namespace TMG.GameOfLifeV3
 {
     // ReSharper disable once InconsistentNaming
     [UpdateInGroup(typeof(PresentationSystemGroup), OrderLast = true)]
-    public class Test_EntitySaveLoadSystem : SystemBase
+    public partial class Test_EntitySaveLoadSystem : SystemBase
     {
         private ReferencedUnityObjects _referencedUnityObjects;
         private StandardSaveData _stdSaveData;
@@ -85,11 +85,30 @@ namespace TMG.GameOfLifeV3
         private void Save(int saveSlot)
         {
             Debug.Log($"Player saving to slot {saveSlot}");
-            StandardSave(saveSlot);
+            //StandardSave(saveSlot);
             //HybridSave(saveSlot);
         }
 
-        private void StandardSave(int saveSlot)
+        /*private void StandardSave(int saveSlot)
+        {
+            using var saveWorld = new World("SaveWorld", WorldFlags.Staging);
+            using var entitiesToSave = _allSaveEntities.ToEntityArray(Allocator.Temp);
+            _entityRemapInfo =
+                new NativeArray<EntityRemapUtility.EntityRemapInfo>(EntityManager.EntityCapacity,
+                    Allocator.Persistent);
+            saveWorld.EntityManager.CopyEntitiesFrom(EntityManager, entitiesToSave, entitiesToSave);
+            
+            using (var writer = new StreamBinaryWriter($"{Application.dataPath}/TestSaveData{saveSlot}"))
+            {
+                SerializeUtility.SerializeWorld(saveWorld.EntityManager, writer, out var standardObjects, _entityRemapInfo);
+                _stdSaveData.Array = standardObjects;
+            }
+            
+            var jsonString = JsonUtility.ToJson(_stdSaveData);
+            PlayerPrefs.SetString($"TGOL-TestSave{saveSlot}", jsonString);
+        }*/
+        
+        /*private void HybridSave(int saveSlot)
         {
             using var saveWorld = new World("SaveWorld", WorldFlags.Staging);
             using var entitiesToSave = _allSaveEntities.ToEntityArray(Allocator.Temp);
@@ -99,18 +118,11 @@ namespace TMG.GameOfLifeV3
             saveWorld.EntityManager.CopyEntitiesFrom(EntityManager, entitiesToSave, entitiesToSave);
             using (var writer = new StreamBinaryWriter($"{Application.dataPath}/TestSaveData{saveSlot}"))
             {
-                SerializeUtility.SerializeWorld(saveWorld.EntityManager, writer, out var standardObjects, _entityRemapInfo);
-                
-                _stdSaveData.Array = standardObjects;
+                SerializeUtilityHybrid.Serialize(EntityManager, writer, out _referencedUnityObjects, _entityRemapInfo);
+                //_hybridSaveData.Array = _referencedUnityObjects.Array;
             }
-            
-            var jsonString = JsonUtility.ToJson(_stdSaveData);
-            PlayerPrefs.SetString($"TGOL-TestSave{saveSlot}", jsonString);
-        }
-        
-        /*private void HybridSave(int saveSlot)
-        {
-            using (var writer = new StreamBinaryWriter($"{Application.dataPath}/TestSaveData{saveSlot}"))
+            Debug.Log($"Hybrid save {_referencedUnityObjects.Array.Length}");
+            /*using (var writer = new StreamBinaryWriter($"{Application.dataPath}/TestSaveData{saveSlot}"))
             {
                 SerializeUtilityHybrid.Serialize(EntityManager, writer, out _referencedUnityObjects);
             }
@@ -122,17 +134,18 @@ namespace TMG.GameOfLifeV3
             }
 
             _jsonData = JsonUtility.ToJson(_standardObjects);
-            Debug.Log(_jsonData);
+            Debug.Log(_jsonData);#1#
         }*/
 
         private void Load(int saveSlot)
         {
             Debug.Log($"Player loading from slot {saveSlot}");
 
-            StandardLoad(saveSlot);
+            //StandardLoad(saveSlot);
+            //HybridLoad(saveSlot);
         }
 
-        private void StandardLoad(int saveSlot)
+        /*private void StandardLoad(int saveSlot)
         {
             var jsonString = PlayerPrefs.GetString($"TGOL-TestSave{saveSlot}");
             var jsonData = JsonUtility.FromJson<StandardSaveData>(jsonString);
@@ -150,24 +163,25 @@ namespace TMG.GameOfLifeV3
             //EntityManager.MoveEntitiesFrom(loadEman, _entityRemapInfo);
             World.DefaultGameObjectInjectionWorld.GetExistingSystem<ChangeCellsSystem>().AfterReloadOps();
             World.DefaultGameObjectInjectionWorld.GetExistingSystem<SpawnGridSystem>().ResetBlobAsset();
-        }
+        }*/
         
-        private void HybridLoad(int saveSlot)
+        /*private void HybridLoad(int saveSlot)
         {
+            EntityManager.DestroyEntity(_allSaveEntities);
             var loadWorld = new World("LoadWorld", WorldFlags.Staging);
             var loadEman = loadWorld.EntityManager;
-            //var eetrans = new ExclusiveEntityTransaction();
 
             using (var reader = new StreamBinaryReader($"{Application.dataPath}/TestSaveData{saveSlot}"))
             {
-                //SerializeUtility.DeserializeWorld(eetrans, reader, _objects);
+                //SerializeUtilityHybrid.Deserialize(loadEman, reader, _referencedUnityObjects);
+                SerializeUtilityHybrid.DeserializeObjectReferences(_referencedUnityObjects, out var objectReferences);
                 SerializeUtilityHybrid.Deserialize(loadEman, reader, _referencedUnityObjects);
             }
 
-            EntityManager.MoveEntitiesFrom(loadEman);
-            //EntityManager.MoveEntitiesFrom(eetrans.EntityManager);
-            //loadWorld.EntityManager.EndExclusiveEntityTransaction();
-        }
+            //EntityManager.MoveEntitiesFrom(loadEman);
+            //World.DefaultGameObjectInjectionWorld.GetExistingSystem<ChangeCellsSystem>().AfterReloadOps();
+            //World.DefaultGameObjectInjectionWorld.GetExistingSystem<SpawnGridSystem>().ResetBlobAsset();
+        }*/
 
         private void Clear(int saveSlot)
         {

@@ -1,4 +1,4 @@
-﻿using Unity.Entities;
+using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
 using UnityEngine;
@@ -6,7 +6,7 @@ using UnityEngine;
 namespace TMG.GameOfLifeV3
 {
     [DisableAutoCreation]
-    public class ProcessLifeSystem : SystemBase
+    public partial class ProcessLifeSystem : SystemBase
     {
         private EndSimulationEntityCommandBufferSystem _ecbSystem;
 

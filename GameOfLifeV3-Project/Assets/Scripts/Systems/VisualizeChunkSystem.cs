@@ -1,4 +1,4 @@
-﻿using Unity.Burst;
+using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
@@ -7,7 +7,7 @@ using UnityEngine;
 namespace TMG.GameOfLifeV3
 {
     //[DisableAutoCreation]
-    public class VisualizeChunkSystem : SystemBase
+    public partial class VisualizeChunkSystem : SystemBase
     {
         private EndSimulationEntityCommandBufferSystem _endSimulationECBSystem;
 

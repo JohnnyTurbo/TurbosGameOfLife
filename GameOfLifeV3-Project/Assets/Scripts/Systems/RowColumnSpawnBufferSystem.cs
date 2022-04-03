@@ -1,4 +1,4 @@
-﻿using Unity.Collections;
+using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
@@ -6,7 +6,7 @@ using Unity.Transforms;
 namespace TMG.GameOfLifeV3
 {
     [DisableAutoCreation]
-    public class RowColumnSpawnBufferSystem : SystemBase
+    public partial class RowColumnSpawnBufferSystem : SystemBase
     {
         private EntityArchetype _cellArchetype;
         private EndSimulationEntityCommandBufferSystem _endSimulationECBSystem;

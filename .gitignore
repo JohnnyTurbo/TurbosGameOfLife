@@ -22,6 +22,7 @@ Sprites.meta
 Audio
 Audio.meta
 [Ss]creenshots/
+GameOfLifeV3-Project-Backup/
 
 # Asset meta data should only be ignored when the corresponding asset is also ignored
 !/[Aa]ssets/**/*.meta

@@ -157,8 +157,8 @@ MonoBehaviour:
   _pauseKey: 27
   _stepKey: 275
   _initialGridSize:
-    x: 10
-    y: 10
+    x: 25
+    y: 25
   TotalEntityCount: 0
 --- !u!4 &165528024
 Transform:
@@ -433,6 +433,7 @@ GameObject:
   - component: {fileID: 1694063188}
   - component: {fileID: 1694063189}
   - component: {fileID: 1694063190}
+  - component: {fileID: 1694063191}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -453,8 +454,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Value:
-    x: 5
-    y: 5
+    x: 25
+    y: 25
 --- !u!114 &1694063184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -554,6 +555,18 @@ MonoBehaviour:
     x: 0.5
     y: 0.5
     z: 0
-  CellReferenceType: 1
+  CellReferenceType: 0
   GridOrganizationPattern: 0
   GridVisualizationType: 0
+--- !u!114 &1694063191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1694063182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8eb9b9d607493354ebe28b890d8e6426, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
